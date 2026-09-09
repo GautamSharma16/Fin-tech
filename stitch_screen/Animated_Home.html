@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>
+@layer base {
+  html, body { margin: 0; padding: 0; }
+  body { overscroll-behavior: none; }
+  main > :first-child { margin-top: 0 !important; }
+  main > :last-child { margin-bottom: 0 !important; }
+}
+::-webkit-scrollbar { display: none; }
+
+/* Custom Keyframe Animations & Transitions */
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes float-subtle-reverse {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(6px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 4px 14px rgba(190, 245, 60, 0.4); }
+  50% { box-shadow: 0 8px 24px rgba(190, 245, 60, 0.7); }
+}
+
+@keyframes gradient-shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.25); }
+}
+
+.animate-float {
+  animation: float-subtle 4.5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-subtle-reverse 5s ease-in-out infinite 0.8s;
+}
+
+.animate-glow-button {
+  animation: pulse-glow 3s infinite ease-in-out;
+}
+
+.banner-shimmer {
+  background-size: 200% 200%;
+  animation: gradient-shimmer 12s ease infinite;
+}
+
+.status-dot-pulse {
+  animation: status-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Nav Link hover underline */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #001849;
+  border-radius: 9999px;
+  transition: width 0.25s ease-in-out;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Staggered load transitions */
+.hero-fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-fade-in-delayed-1 {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+.hero-fade-in-delayed-2 {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+.hero-fade-in-delayed-3 {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+}
+.hero-image-reveal {
+  opacity: 0;
+  transform: scale(0.97) translateY(12px);
+  animation: heroImageIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+@keyframes heroFadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroImageIn {
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container-lowest":"#ffffff","surface-container-highest":"#d5e3fc","on-error-container":"#93000a","background":"#f8f9ff","surface":"#f8f9ff","on-secondary-fixed-variant":"#384e00","on-secondary-container":"#506e00","secondary":"#4c6700","tertiary-container":"#1d2f54","tertiary-fixed-dim":"#b4c6f3","on-primary-fixed-variant":"#2a4484","inverse-on-surface":"#eaf1ff","secondary-fixed-dim":"#a3d719","surface-bright":"#f8f9ff","primary":"#001849","surface-variant":"#d5e3fc","outline-variant":"#c5c6d2","on-primary-fixed":"#001849","on-background":"#0d1c2e","on-tertiary-fixed-variant":"#35466c","secondary-fixed":"#bef53c","tertiary":"#041a3e","on-tertiary":"#ffffff","on-secondary":"#ffffff","on-surface-variant":"#444650","surface-container-low":"#eff4ff","primary-fixed":"#dae1ff","on-tertiary-container":"#8697c2","primary-fixed-dim":"#b3c5ff","surface-dim":"#ccdbf3","error-container":"#ffdad6","inverse-primary":"#b3c5ff","on-surface":"#0d1c2e","error":"#ba1a1a","on-primary":"#ffffff","on-secondary-fixed":"#141f00","inverse-surface":"#233144","surface-container-high":"#dce9ff","on-primary-container":"#7e96dc","primary-container":"#0d2c6c","secondary-container":"#bef53c","outline":"#757681","surface-tint":"#435c9d","on-tertiary-fixed":"#051a3e","on-error":"#ffffff","tertiary-fixed":"#d8e2ff","surface-container":"#e6eeff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1.5rem","space-3xl":"4.5rem","space-xl":"2rem","space-sm":"0.75rem","space-2xl":"3rem","space-2xs":"0.25rem","gutter-mobile":"0.75rem","space-4xl":"6rem","container-max":"1280px","margin-mobile":"1rem","gutter-desktop":"1.5rem","gutter-tablet":"1rem","space-xs":"0.5rem","space-md":"1rem","margin-desktop":"2.5rem"},"fontFamily":{"body-lg":["Inter"],"display-hero":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"metric-display":["Plus Jakarta Sans"],"body-sm":["Inter"],"body-md":["Inter"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"]},"fontSize":{"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"display-hero":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"800"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.02em","fontWeight":"600"}],"display-hero-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"800"}],"headline-md":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"700"}],"metric-display":["32px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"800"}],"body-sm":["13px",{"lineHeight":"20px","fontWeight":"400"}],"body-md":["15px",{"lineHeight":"24px","fontWeight":"400"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.025em","fontWeight":"700"}],"label-lg":["15px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"700"}],"title-md":["18px",{"lineHeight":"26px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-surface-container shadow-[0_1px_8px_rgba(0,0,0,0.04)] transition-all duration-300"><div class="h-20 max-w-container-max mx-auto px-gutter-desktop flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm shrink-0"><img alt="Fast Credit Finance Logo" class="h-8 w-auto object-contain transition-transform duration-300 hover:scale-105" src="https://lh3.googleusercontent.com/aida/AEtjO1W6OuTY9cqy4NT9XB8GBjnEbhj6Ogb7kc559_QI3kBgp-Wl-MWIv8PL9TOdTJTuap52ObmV4Okbxgz-BjyD1fg5G4SOqbsNQ_RkKPOPOlOkfT9cVhpj_Lg_FklH34nhDtDpyqZvC6eE15Bp2etHUJ4Ds1sxBU4GfjE6HUEczW7fgjJYL_yLu_dkniSaxFkQos6CcZvHy-oHSEp5eGUXLYNQ7plQp2015PHI80392CiHYR5hxDl8eLUGZ70"/><div class="flex flex-col"><span class="font-title-md text-title-md font-bold tracking-tight text-primary leading-none">Fast Credit Finance</span><span class="font-label-sm text-label-sm tracking-wide text-on-surface-variant uppercase mt-1">Company Limited</span></div></div><nav class="hidden lg:flex items-center gap-space-lg" data-active-classes="text-primary font-bold after:w-full"><a aria-current="page" class="nav-link active py-space-xs text-primary font-bold transition-colors" data-path="home" href="#">Home</a><a class="nav-link py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="loans" href="#loans-section">Loans</a><div class="relative flex items-center"><a class="nav-link py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="assistance" href="#assistance-section">₹699 Financial Assistance</a><span class="ml-space-2xs px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm font-extrabold uppercase tracking-wider animate-pulse">POPULAR</span></div><a class="nav-link py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About Us</a><a class="nav-link py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="contact" href="#">Contact Us</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="hidden xl:flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container-low border border-surface-container hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-primary text-base">support_agent</span><div class="flex flex-col text-left"><span class="font-label-sm text-label-sm text-on-surface-variant">Toll-Free Assist</span><a class="font-label-md text-label-md font-bold text-primary hover:underline" href="tel:18002667777">1800-266-7777</a></div></div><div class="flex items-center gap-space-xs cursor-pointer group"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuCwBGmaKHxLGEJ0Km-7DvQ_O60m5EKrS3ynJNG3xwV8JPwF2tJZo3Zwrnv3DjyPAQBnWF3_6mfivdV4T5HDWlTEhiXN76Os8yn1cOyyvwqx3AVm73KOsmsmzqO30qaJxHAr5iKwZhcBw3DoXtlcCDKhOB6q63Jacz4lDa0dBP3knqstfxAa25YRhgkCZj5leUGV8GZqt1bheAXWewIDU1VCCHV_jsh1sEJ-vY12j8_3rsiVjAcmBe"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-secondary-fixed rounded-full ring-2 ring-surface-container-lowest status-dot-pulse"></span></div><div class="hidden md:flex flex-col text-left mr-space-2xs"><span class="font-label-sm text-label-sm font-bold text-on-surface leading-tight">Helpdesk</span><span class="font-label-sm text-label-sm text-secondary font-semibold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block animate-ping"></span>Online</span></div></div><a class="inline-flex items-center justify-center px-space-lg py-space-sm rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-lg text-label-lg font-bold hover:bg-secondary-fixed-dim active:bg-secondary active:scale-95 transition-all duration-200 shadow-[0_2px_8px_rgba(190,245,60,0.35)] hover:shadow-[0_4px_16px_rgba(190,245,60,0.5)]" data-path="apply" href="#">Apply Now</a></div></div></header><main class="w-full pt-20 bg-surface"><div class="flex flex-col w-full">
+<!-- SECTION 1: HERO -->
+<section class="relative overflow-hidden bg-surface py-space-2xl lg:py-space-3xl">
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-2xl items-center">
+<!-- Left Col: Copy & Actions -->
+<div class="lg:col-span-7 flex flex-col items-start">
+<div class="hero-fade-in inline-flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm uppercase tracking-wider mb-space-md shadow-sm hover:bg-surface-container-highest transition-colors cursor-default">
+<span class="material-symbols-outlined text-secondary text-sm animate-pulse">bolt</span>
+<span class="font-bold">RBI Registered NBFC Partner</span>
+<span class="text-outline-variant">•</span>
+<span class="font-medium text-on-surface-variant">100% Digital &amp; Transparent Process</span>
+</div>
+<h1 class="hero-fade-in-delayed-1 font-display-hero text-display-hero text-on-surface font-extrabold tracking-tight mb-space-md">
+            Fast Credit. <br class="hidden sm:inline"/>
+<span class="text-primary-container">Smarter Financial</span> Solutions.
+          </h1>
+<p class="hero-fade-in-delayed-2 font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-space-xl leading-relaxed">
+            Simple, transparent, and reliable financial solutions designed around your needs. Empowering individuals and businesses across India with instant approvals and zero hidden surprises.
+          </p>
+<div class="hero-fade-in-delayed-3 flex flex-wrap items-center gap-space-md mb-space-xl w-full sm:w-auto">
+<a class="group inline-flex items-center justify-center gap-space-xs px-space-xl py-space-sm rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-lg text-label-lg font-bold hover:bg-secondary-fixed-dim active:scale-95 transition-all duration-200 shadow-[0_4px_14px_rgba(190,245,60,0.4)] animate-glow-button" href="#">
+<span>Apply for a Loan</span>
+<span class="material-symbols-outlined text-lg transition-transform duration-200 group-hover:translate-x-1.5">arrow_forward</span>
+</a>
+<a class="inline-flex items-center justify-center px-space-xl py-space-sm rounded-full bg-surface-container-lowest text-primary font-label-lg text-label-lg font-bold hover:bg-surface-container hover:shadow-md active:scale-95 transition-all duration-200 shadow-sm border border-surface-container" href="#loans-section">
+              Explore Our Loans
+            </a>
+</div>
+<!-- Feature Chips -->
+<div class="hero-fade-in-delayed-3 flex flex-wrap items-center gap-space-sm pt-space-xs">
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 border border-surface-container/60 group cursor-default">
+<span class="material-symbols-outlined text-secondary text-lg transition-transform duration-300 group-hover:scale-110">schedule</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Disbursal in 24 Hrs</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 border border-surface-container/60 group cursor-default">
+<span class="material-symbols-outlined text-secondary text-lg transition-transform duration-300 group-hover:scale-110">percent</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Competitive Interest Rates</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 border border-surface-container/60 group cursor-default">
+<span class="material-symbols-outlined text-secondary text-lg transition-transform duration-300 group-hover:scale-110">description</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Minimal Documentation</span>
+</div>
+</div>
+</div>
+<!-- Right Col: Visual Feature Frame -->
+<div class="lg:col-span-5 relative flex justify-center hero-image-reveal">
+<div class="relative w-full max-w-lg">
+<!-- Ambient Backdrop Glow -->
+<div class="absolute -inset-4 bg-gradient-to-tr from-secondary-fixed/30 to-primary-fixed/20 rounded-3xl blur-2xl -z-10 animate-pulse" style="animation-duration: 4s;"></div>
+<div class="relative overflow-hidden rounded-2xl bg-surface-container-lowest shadow-xl group">
+<img class="w-full h-[460px] object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105" data-alt="A cheerful Indian middle-class family consisting of a father, mother, and their young daughter seated around a polished wooden table in a bright, modern living room. They are reviewing their newly approved loan sanction documents with genuine happiness and relief. The room is warmly lit with natural morning daylight, soft architectural houseplants, and tasteful family portraits in the background. The visual atmosphere conveys utmost financial trust, security, and transparent prosperity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyFfLq3d4jpiVECNXafcJ9eRqA339k339Vmb6HhMtGD8vxRUQJNfhGW-TjcQ4NEWC0EMvTxJWrGMuW_HEyDhh3kTBQO57K8GMrv6J7Rg8ee8Lg3DjcUQuPSyvohAk0fq-AkMeo5ub12XeCAX3NU55pb1Uh2V0J-OFJUlGcZ3hMnPkChx7dqxd90lpjs29d-95I2SRvnTzQKkrxg3E11Mrk57zv8czwAZ0cevcV478v0OXbGWvsnaYR"/>
+<!-- Overlay Card: Pre-Approval -->
+<div class="animate-float absolute top-space-md left-space-md bg-surface-container-lowest/95 backdrop-blur-md p-space-sm rounded-xl shadow-lg border border-white/50 flex items-center gap-space-sm hover:scale-105 transition-transform duration-300">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shadow-inner">
+<span class="material-symbols-outlined text-xl">verified</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Fast Credit Engine</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Instant Pre-Approval Check</span>
+</div>
+</div>
+<!-- Overlay Card: Social Proof Rating -->
+<div class="animate-float-delayed absolute bottom-space-md right-space-md bg-primary-container/95 backdrop-blur-md text-on-primary p-space-md rounded-xl shadow-xl border border-primary-fixed/20 flex items-center gap-space-sm hover:scale-105 transition-transform duration-300">
+<div class="flex items-center text-secondary-fixed font-title-md text-title-md animate-pulse">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-primary">4.8 / 5.0 Rating</span>
+<span class="font-label-sm text-label-sm text-on-primary-container">45,000+ Happy Borrowers</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 2: WHY CHOOSE FAST CREDIT -->
+<section class="py-space-3xl bg-surface-container-low">
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<div class="flex flex-col items-center text-center mb-space-2xl">
+<span class="px-space-md py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm uppercase tracking-widest font-extrabold mb-space-xs">
+          The Fast Credit Advantage
+        </span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+          Why Indian Borrowers Trust Fast Credit
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mt-space-2xs">
+          Built from the ground up to replace outdated banking bureaucracy with rapid digital convenience, complete transparency, and human empathy.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-space-md">
+<!-- Card 1 -->
+<div class="flex flex-col justify-between p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-secondary-fixed transition-all duration-300 group cursor-default">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary mb-space-md group-hover:bg-secondary-fixed group-hover:rotate-6 group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-2xl transition-transform duration-300">speed</span>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mb-space-xs group-hover:text-primary transition-colors">
+              Quick &amp; Simple
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Seamless paperless digital onboarding with instant digital eligibility and 10-minute automated approval checks.
+            </p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center gap-space-2xs text-primary font-label-sm text-label-sm font-bold">
+<span>Instant Digital KYC</span>
+<span class="material-symbols-outlined text-xs transition-transform duration-200 group-hover:translate-x-1.5">arrow_forward</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex flex-col justify-between p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-secondary-fixed transition-all duration-300 group cursor-default">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary mb-space-md group-hover:bg-secondary-fixed group-hover:rotate-6 group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-2xl transition-transform duration-300">visibility</span>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mb-space-xs group-hover:text-primary transition-colors">
+              Transparent Terms
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Zero hidden administrative charges, upfront annualized percentage rate (APR) calculations, and honest fee breakdowns.
+            </p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center gap-space-2xs text-primary font-label-sm text-label-sm font-bold">
+<span>Zero Hidden Costs</span>
+<span class="material-symbols-outlined text-xs transition-transform duration-200 group-hover:translate-x-1.5">arrow_forward</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex flex-col justify-between p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-secondary-fixed transition-all duration-300 group cursor-default">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary mb-space-md group-hover:bg-secondary-fixed group-hover:rotate-6 group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-2xl transition-transform duration-300">tune</span>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mb-space-xs group-hover:text-primary transition-colors">
+              Flexible Solutions
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Tailored repayment tenures from 12 to 84 months with penalty-free part-prepayment opportunities.
+            </p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center gap-space-2xs text-primary font-label-sm text-label-sm font-bold">
+<span>Adaptive Tenures</span>
+<span class="material-symbols-outlined text-xs transition-transform duration-200 group-hover:translate-x-1.5">arrow_forward</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="flex flex-col justify-between p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-secondary-fixed transition-all duration-300 group cursor-default">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary mb-space-md group-hover:bg-secondary-fixed group-hover:rotate-6 group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-2xl transition-transform duration-300">support_agent</span>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mb-space-xs group-hover:text-primary transition-colors">
+              Trusted Support
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Dedicated loan officers and responsive customer support teams providing hand-held guidance at each milestone.
+            </p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center gap-space-2xs text-primary font-label-sm text-label-sm font-bold">
+<span>Dedicated Advisor</span>
+<span class="material-symbols-outlined text-xs transition-transform duration-200 group-hover:translate-x-1.5">arrow_forward</span>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="flex flex-col justify-between p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-secondary-fixed transition-all duration-300 group cursor-default">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary mb-space-md group-hover:bg-secondary-fixed group-hover:rotate-6 group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-2xl transition-transform duration-300">volunteer_activism</span>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mb-space-xs group-hover:text-primary transition-colors">
+              Customer First
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Convenient customizable EMI dates, restructuring assistance in distress, and fair grievance redressal.
+            </p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center gap-space-2xs text-primary font-label-sm text-label-sm font-bold">
+<span>Proactive Care</span>
+<span class="material-symbols-outlined text-xs transition-transform duration-200 group-hover:translate-x-1.5">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: OUR LOAN SOLUTIONS -->
+<section class="py-space-3xl bg-surface" id="loans-section">
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-2xl gap-space-md">
+<div>
+<span class="px-space-md py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm uppercase tracking-widest font-extrabold mb-space-xs inline-block">
+            Tailored Capital
+          </span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+            Explore Our Loan Solutions
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-space-2xs">
+            Financing crafted for every stage of your life, enterprise growth, and ambitious personal milestones.
+          </p>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-space-xs rounded-full bg-surface-container text-primary font-label-md text-label-md font-semibold hover:bg-surface-container-high active:scale-95 transition-all">
+            All Products
+          </button>
+<button class="px-space-md py-space-xs rounded-full bg-surface text-on-surface-variant font-label-md text-label-md font-semibold hover:bg-surface-container active:scale-95 transition-all">
+            Calculate EMI
+          </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg">
+<!-- Personal Loan Card -->
+<div class="flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-2xl hover:-translate-y-2 border border-transparent hover:border-primary/20 transition-all duration-300 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-full -z-0 group-hover:scale-125 transition-transform duration-500 ease-out"></div>
+<div class="relative z-10 flex flex-col">
+<div class="flex items-center justify-between mb-space-md">
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-low text-primary font-label-sm text-label-sm font-extrabold uppercase tracking-wide group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                From 10.49% p.a.
+              </span>
+<span class="material-symbols-outlined text-primary text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">person</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
+              Personal Loan
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+              Instant unsecured funds up to ₹25 Lakhs for weddings, emergency medical care, travel, or consolidation.
+            </p>
+<div class="space-y-space-xs mb-space-xl">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Tenures up to 5 Years</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-75">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Zero collateral requirement</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-150">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Same-day account credit</span>
+</div>
+</div>
+</div>
+<div class="relative z-10 pt-space-md">
+<a class="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn" href="#">
+<span>View Details</span>
+<span class="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Business Loan Card -->
+<div class="flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-2xl hover:-translate-y-2 border border-transparent hover:border-primary/20 transition-all duration-300 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-full -z-0 group-hover:scale-125 transition-transform duration-500 ease-out"></div>
+<div class="relative z-10 flex flex-col">
+<div class="flex items-center justify-between mb-space-md">
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-low text-primary font-label-sm text-label-sm font-extrabold uppercase tracking-wide group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                From 12.99% p.a.
+              </span>
+<span class="material-symbols-outlined text-primary text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">storefront</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
+              Business Loan
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+              Collateral-free working capital and growth credit up to ₹50 Lakhs for MSMEs, inventory, and scale.
+            </p>
+<div class="space-y-space-xs mb-space-xl">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Up to ₹50 Lakhs limit</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-75">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Flexible cash flow EMIs</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-150">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Minimal GST &amp; ITR filing</span>
+</div>
+</div>
+</div>
+<div class="relative z-10 pt-space-md">
+<a class="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn" href="#">
+<span>View Details</span>
+<span class="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Consumer Loan Card -->
+<div class="flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-2xl hover:-translate-y-2 border border-transparent hover:border-secondary-fixed transition-all duration-300 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-full -z-0 group-hover:scale-125 transition-transform duration-500 ease-out"></div>
+<div class="relative z-10 flex flex-col">
+<div class="flex items-center justify-between mb-space-md">
+<span class="px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm font-extrabold uppercase tracking-wide group-hover:bg-secondary group-hover:text-white transition-colors">
+                0% EMI Options
+              </span>
+<span class="material-symbols-outlined text-primary text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">shopping_bag</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
+              Consumer Loan
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+              Low-cost and zero-cost EMI financing for digital electronics, high-efficiency appliances, and lifestyle goods.
+            </p>
+<div class="space-y-space-xs mb-space-xl">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Instant merchant checkout</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-75">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>No down payment schemes</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-150">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Approval in under 3 minutes</span>
+</div>
+</div>
+</div>
+<div class="relative z-10 pt-space-md">
+<a class="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn" href="#">
+<span>View Details</span>
+<span class="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Loan Against Property Card -->
+<div class="flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-2xl hover:-translate-y-2 border border-transparent hover:border-primary/20 transition-all duration-300 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-full -z-0 group-hover:scale-125 transition-transform duration-500 ease-out"></div>
+<div class="relative z-10 flex flex-col">
+<div class="flex items-center justify-between mb-space-md">
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-low text-primary font-label-sm text-label-sm font-extrabold uppercase tracking-wide group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                Up to ₹5 Crores
+              </span>
+<span class="material-symbols-outlined text-primary text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">real_estate_agent</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
+              Home &amp; LAP
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+              Long-tenure, large-ticket financing secured against residential or commercial properties for landmark projects.
+            </p>
+<div class="space-y-space-xs mb-space-xl">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Tenures extended to 15 Years</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-75">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Lowest interest brackets</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-150">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Doorstep legal verification</span>
+</div>
+</div>
+</div>
+<div class="relative z-10 pt-space-md">
+<a class="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn" href="#">
+<span>View Details</span>
+<span class="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: SIGNATURE PRODUCT — ₹699 FINANCIAL ASSISTANCE (FAST CREDIT CARE) -->
+<section class="py-space-3xl bg-surface-container-low relative" id="assistance-section">
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<div class="banner-shimmer relative rounded-3xl bg-gradient-to-br from-primary via-primary-container to-tertiary text-on-primary overflow-hidden shadow-2xl p-space-xl lg:p-space-3xl border border-primary-fixed/20 hover:border-secondary-fixed/40 transition-colors duration-500">
+<!-- Background Ambient Geometry -->
+<div class="absolute -right-20 -top-20 w-96 h-96 bg-secondary-fixed/10 rounded-full blur-3xl pointer-events-none animate-pulse" style="animation-duration: 6s;"></div>
+<div class="absolute left-10 -bottom-20 w-80 h-80 bg-primary-fixed/10 rounded-full blur-2xl pointer-events-none animate-pulse" style="animation-duration: 5s;"></div>
+<div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-space-2xl items-center">
+<!-- Left side: Value proposition -->
+<div class="lg:col-span-7 flex flex-col">
+<div class="flex items-center gap-space-xs mb-space-md">
+<span class="px-space-sm py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-extrabold uppercase tracking-wider shadow-sm transition-transform hover:scale-105">
+                Most Popular Consultation
+              </span>
+<span class="text-secondary-fixed flex items-center animate-pulse">
+<span class="material-symbols-outlined text-base">verified</span>
+</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-primary tracking-tight mb-space-xs">
+              Fast Credit Care – Complete Financial Assistance at Just ₹699
+            </h2>
+<p class="font-body-md text-body-md text-on-primary-container mb-space-xl leading-relaxed">
+              Get comprehensive professional guidance to understand, evaluate, and optimize your credit profile. Avoid unnecessary rejections and navigate India's formal lending ecosystem with total confidence.
+            </p>
+<!-- 7 Feature Checkmarks Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm mb-space-xl">
+<div class="flex items-start gap-space-xs p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+<span class="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">Credit &amp; CIBIL profile diagnostic guidance</span>
+</div>
+<div class="flex items-start gap-space-xs p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+<span class="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">Credit score improvement roadmap</span>
+</div>
+<div class="flex items-start gap-space-xs p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+<span class="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">Loan eligibility &amp; borrowing capacity check</span>
+</div>
+<div class="flex items-start gap-space-xs p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+<span class="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">End-to-end loan application guidance</span>
+</div>
+<div class="flex items-start gap-space-xs p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+<span class="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">Complete documentation check &amp; verification</span>
+</div>
+<div class="flex items-start gap-space-xs p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+<span class="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">1-on-1 personal financial advisor session</span>
+</div>
+<div class="flex items-start gap-space-xs sm:col-span-2 p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+<span class="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">Curated recommendations for competitive interest rate options</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-primary-container italic">
+              *Note: Nominal service fees apply for consultation. Loan approval remains subject to individual lender underwriting norms and formal verification.
+            </p>
+</div>
+<!-- Right side: Offer Box -->
+<div class="lg:col-span-5 flex justify-center">
+<div class="w-full max-w-md bg-surface-container-lowest text-on-surface rounded-2xl p-space-xl shadow-2xl flex flex-col items-center text-center relative hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 transition-all duration-300">
+<div class="absolute -top-3.5 bg-secondary-fixed text-on-secondary-fixed px-space-md py-1 rounded-full font-label-sm text-label-sm font-extrabold uppercase tracking-wide shadow-md animate-pulse">
+                Limited Time Fee Reduction
+              </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase mt-space-xs">
+                One-Time Onboarding Package
+              </span>
+<div class="flex items-baseline gap-space-xs my-space-md">
+<span class="font-metric-display text-metric-display font-extrabold text-primary">₹699</span>
+<span class="font-body-md text-body-md text-outline line-through">₹2,499</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">72% OFF</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+                Includes full financial report audit, dedicated counselor assignment, and priority lender submission file.
+              </p>
+<a class="w-full py-space-sm rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-lg text-label-lg font-bold hover:bg-secondary-fixed-dim hover:scale-[1.03] active:scale-95 transition-all duration-200 shadow-[0_4px_14px_rgba(190,245,60,0.45)] mb-space-md animate-glow-button" href="#">
+                Get Started for ₹699
+              </a>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-secondary text-sm">lock</span>
+<span>100% Encrypted &amp; Secure Checkout</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 5: HOW IT WORKS -->
+<section class="py-space-3xl bg-surface">
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<div class="flex flex-col items-center text-center mb-space-2xl">
+<span class="px-space-md py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm uppercase tracking-widest font-extrabold mb-space-xs">
+          Zero Complications
+        </span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+          Simple 4-Step Path to Financial Freedom
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mt-space-2xs">
+          Experience a structured, prompt loan lifecycle engineered to eliminate branch visits and physical paperwork.
+        </p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-lg relative">
+<!-- Step 1 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-surface-variant transition-all duration-300 relative group cursor-default">
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-metric-display text-metric-display font-black text-surface-variant group-hover:text-primary transition-colors duration-300 leading-none group-hover:scale-110 origin-left">01</span>
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:scale-110">touch_app</span>
+</div>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
+            Apply Online
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Fill out a quick 2-minute digital profile questionnaire with your personal and financial requirements.
+          </p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-surface-variant transition-all duration-300 relative group cursor-default">
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-metric-display text-metric-display font-black text-surface-variant group-hover:text-primary transition-colors duration-300 leading-none group-hover:scale-110 origin-left">02</span>
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:scale-110">upload_file</span>
+</div>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
+            Share Details
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Upload basic KYC identity documents and bank statements securely via DigiLocker or net banking.
+          </p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-surface-variant transition-all duration-300 relative group cursor-default">
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-metric-display text-metric-display font-black text-surface-variant group-hover:text-primary transition-colors duration-300 leading-none group-hover:scale-110 origin-left">03</span>
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:scale-110">support_agent</span>
+</div>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
+            Get Expert Assistance
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Instant evaluation by our algorithm and a quick confirmation call from your dedicated loan officer.
+          </p>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-secondary-fixed transition-all duration-300 relative group cursor-default">
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-metric-display text-metric-display font-black text-surface-variant group-hover:text-secondary-container transition-colors duration-300 leading-none group-hover:scale-110 origin-left">04</span>
+<div class="w-10 h-10 rounded-xl bg-secondary-container flex items-center justify-center text-on-secondary-container group-hover:bg-secondary group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:scale-110">account_balance</span>
+</div>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
+            Move Forward
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Accept clear digital loan terms and receive instant fund transfer directly into your registered bank account.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 6: TRUST, CREDIBILITY & STATS -->
+<section class="py-space-3xl bg-surface-container-low" id="stats-section">
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<div class="flex flex-col items-center text-center mb-space-2xl">
+<span class="px-space-md py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm uppercase tracking-widest font-extrabold mb-space-xs">
+          Proven Impact
+        </span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+          Finance Made Simple. Support You Can Trust.
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mt-space-2xs">
+          Empowering dreams across 28 states and 350+ cities with ethical, transparent, and prompt financial backing.
+        </p>
+</div>
+<!-- Stat Cards Bento -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-2xl">
+<div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group cursor-default">
+<span class="stat-counter font-metric-display text-metric-display font-extrabold text-primary mb-space-2xs group-hover:scale-110 transition-transform duration-300" data-prefix="" data-suffix="K+" data-target="10">10K+</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Customers Assisted</span>
+</div>
+<div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group cursor-default">
+<span class="stat-counter font-metric-display text-metric-display font-extrabold text-primary mb-space-2xs group-hover:scale-110 transition-transform duration-300" data-prefix="₹" data-suffix=" Cr+" data-target="2500">₹2,500 Cr+</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Loans Facilitated</span>
+</div>
+<div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group cursor-default">
+<span class="stat-counter font-metric-display text-metric-display font-extrabold text-primary mb-space-2xs group-hover:scale-110 transition-transform duration-300" data-prefix="" data-suffix="+" data-target="15">15+</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Years Financial Expertise</span>
+</div>
+<div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group cursor-default">
+<span class="stat-counter font-metric-display text-metric-display font-extrabold text-secondary mb-space-2xs group-hover:scale-110 transition-transform duration-300" data-prefix="" data-suffix="%" data-target="98">98%</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Satisfaction Rate</span>
+</div>
+</div>
+<!-- Testimonials Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg mb-space-2xl">
+<!-- Testimonial 1 -->
+<div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-surface-variant transition-all duration-300 flex flex-col justify-between group cursor-default">
+<div>
+<div class="flex items-center text-secondary-fixed-variant mb-space-sm group-hover:scale-105 origin-left transition-transform">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic mb-space-lg leading-relaxed">
+              "The ₹699 Fast Credit Care service completely cleared my doubts about credit score improvement. Within 3 weeks, my home loan was sanctioned without a hitch."
+            </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-sm border-t border-surface-container">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-sm group-hover:rotate-12 transition-transform duration-300">
+              RK
+            </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">Rajesh Kumar</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Senior Tech Lead, Bengaluru</span>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-surface-variant transition-all duration-300 flex flex-col justify-between group cursor-default">
+<div>
+<div class="flex items-center text-secondary-fixed-variant mb-space-sm group-hover:scale-105 origin-left transition-transform">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic mb-space-lg leading-relaxed">
+              "Running a retail business requires urgent liquidity during Diwali. Fast Credit disbursed our MSME expansion loan in under 24 hours with zero unnecessary visits."
+            </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-sm border-t border-surface-container">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-bold text-sm group-hover:rotate-12 transition-transform duration-300">
+              PS
+            </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">Pooja Sharma</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Retail Owner, Pune</span>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 border border-transparent hover:border-surface-variant transition-all duration-300 flex flex-col justify-between group cursor-default">
+<div>
+<div class="flex items-center text-secondary-fixed-variant mb-space-sm group-hover:scale-105 origin-left transition-transform">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic mb-space-lg leading-relaxed">
+              "Complete transparency. No surprise processing deductions at disbursal, and their customer care team is polite, prompt, and actually knowledgeable."
+            </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-sm border-t border-surface-container">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-bold text-sm group-hover:rotate-12 transition-transform duration-300">
+              VM
+            </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">Vikram Mehta</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Architect, Ahmedabad</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Banner -->
+<div class="rounded-2xl bg-surface-container-lowest p-space-xl md:p-space-2xl shadow-md flex flex-col md:flex-row items-center justify-between gap-space-lg hover:shadow-xl transition-shadow duration-300 border border-surface-container/60">
+<div class="flex flex-col text-center md:text-left">
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-space-2xs">
+            Ready to take the next step toward your goals?
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+            Speak directly with our senior loan specialists or submit an instant application today.
+          </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm shrink-0">
+<a class="px-space-xl py-space-sm rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-lg text-label-lg font-bold hover:bg-secondary-fixed-dim hover:scale-105 active:scale-95 transition-all duration-200 shadow-md animate-glow-button" href="#">
+            Apply Now
+          </a>
+<a class="inline-flex items-center gap-space-xs px-space-xl py-space-sm rounded-full bg-surface-container text-primary font-label-lg text-label-lg font-bold hover:bg-surface-container-high hover:scale-105 active:scale-95 transition-all duration-200" href="tel:18002667777">
+<span class="material-symbols-outlined text-lg">call</span>
+<span>1800-266-7777</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+</div></main><footer class="w-full bg-tertiary text-on-tertiary"><div class="max-w-container-max mx-auto px-gutter-desktop pt-space-3xl pb-space-2xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-xl pb-space-2xl border-b border-tertiary-container"><div class="flex flex-col gap-space-md"><div class="inline-flex items-center gap-space-xs bg-surface-container-lowest p-space-xs rounded-lg w-fit transition-transform hover:scale-105"><img alt="Fast Credit Finance Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1W6OuTY9cqy4NT9XB8GBjnEbhj6Ogb7kc559_QI3kBgp-Wl-MWIv8PL9TOdTJTuap52ObmV4Okbxgz-BjyD1fg5G4SOqbsNQ_RkKPOPOlOkfT9cVhpj_Lg_FklH34nhDtDpyqZvC6eE15Bp2etHUJ4Ds1sxBU4GfjE6HUEczW7fgjJYL_yLu_dkniSaxFkQos6CcZvHy-oHSEp5eGUXLYNQ7plQp2015PHI80392CiHYR5hxDl8eLUGZ70"/><span class="font-title-md text-title-md font-bold text-primary">Fast Credit</span></div><p class="font-body-md text-body-md text-on-tertiary-container leading-relaxed">Fast Credit Finance Company Limited — A trusted financial partner making credit simple, transparent, and accessible across India.</p><div class="flex items-center gap-space-xs text-on-tertiary-container font-label-sm text-label-sm"><span class="material-symbols-outlined text-secondary-fixed text-base animate-pulse">verified_user</span><span>RBI Registered NBFC Category-B</span></div></div><div class="flex flex-col gap-space-sm"><h4 class="font-title-md text-title-md font-bold text-on-tertiary">Loan Solutions</h4><ul class="flex flex-col gap-space-xs"><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150"><a href="#">Personal Loan</a></li><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150"><a href="#">Business Loan</a></li><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150"><a href="#">Consumer Loan</a></li><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150"><a href="#">Home Loan</a></li><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150"><a href="#">Loan Against Property</a></li></ul></div><div class="flex flex-col gap-space-sm"><h4 class="font-title-md text-title-md font-bold text-on-tertiary">Quick Links</h4><ul class="flex flex-col gap-space-xs"><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150 flex items-center gap-space-2xs"><a href="#">₹699 Credit Care Assistance</a><span class="px-1.5 py-0.5 text-[10px] rounded bg-secondary-fixed text-on-secondary-fixed font-bold leading-none uppercase animate-pulse">HOT</span></li><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150"><a href="#">About Fast Credit</a></li><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150"><a href="#">Leadership</a></li><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150"><a href="#">Careers</a></li><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150"><a href="#">Grievance Redressal</a></li><li class="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150"><a href="#">Fair Practice Code</a></li></ul></div><div class="flex flex-col gap-space-sm"><h4 class="font-title-md text-title-md font-bold text-on-tertiary">Contact &amp; Support</h4><div class="flex flex-col gap-space-xs text-on-tertiary-container font-body-md text-body-md"><div class="flex items-start gap-space-xs group"><span class="material-symbols-outlined text-secondary-fixed text-base mt-1 shrink-0 group-hover:scale-110 transition-transform">call</span><div><span class="block font-label-sm text-label-sm text-tertiary-fixed-dim">Toll Free Number</span><a class="text-on-tertiary font-bold hover:underline" href="tel:18002667777">1800-266-7777</a></div></div><div class="flex items-start gap-space-xs group"><span class="material-symbols-outlined text-secondary-fixed text-base mt-1 shrink-0 group-hover:scale-110 transition-transform">mail</span><div><span class="block font-label-sm text-label-sm text-tertiary-fixed-dim">Customer Support</span><a class="text-on-tertiary hover:underline break-all" href="mailto:support@fastcreditfinance.com">support@fastcreditfinance.com</a></div></div><div class="flex items-start gap-space-xs group"><span class="material-symbols-outlined text-secondary-fixed text-base mt-1 shrink-0 group-hover:scale-110 transition-transform">location_on</span><div><span class="block font-label-sm text-label-sm text-tertiary-fixed-dim">Headquarters</span><span>Corporate Tower, Bandra Kurla Complex, Mumbai 400051</span></div></div></div></div></div><div class="pt-space-lg flex flex-col lg:flex-row items-center justify-between gap-space-md text-on-tertiary-container font-body-sm text-body-sm"><div class="flex flex-col gap-1 text-center lg:text-left"><span>© 2025 Fast Credit Finance Company Limited. All rights reserved.</span><span class="font-label-sm text-label-sm text-tertiary-fixed-dim">CIN: U65923MH2012PLC238910 | RBI Registration No: B-13.02159</span></div><div class="flex flex-wrap items-center justify-center gap-space-md font-label-sm text-label-sm"><a class="hover:text-on-tertiary hover:underline transition-colors" href="#">Privacy Policy</a><span class="text-tertiary-container">•</span><a class="hover:text-on-tertiary hover:underline transition-colors" href="#">Terms &amp; Conditions</a><span class="text-tertiary-container">•</span><a class="hover:text-on-tertiary hover:underline transition-colors" href="#">Statutory Disclaimer</a></div></div></div></footer>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Intersection Observer for animated counter statistics
+  const statElements = document.querySelectorAll('.stat-counter');
+  let animated = false;
+
+  const animateCounters = () => {
+    if (animated) return;
+    animated = true;
+
+    statElements.forEach(el => {
+      const target = parseFloat(el.getAttribute('data-target'));
+      const prefix = el.getAttribute('data-prefix') || '';
+      const suffix = el.getAttribute('data-suffix') || '';
+      const duration = 1600; // ms
+      const startTime = performance.now();
+
+      const formatNumber = (val) => {
+        if (val >= 1000) {
+          return val.toLocaleString('en-IN');
+        }
+        return val.toFixed(0);
+      };
+
+      const updateCount = (currentTime) => {
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        const easeOutQuad = 1 - Math.pow(1 - progress, 3);
+        const currentVal = Math.round(easeOutQuad * target);
+        el.textContent = `${prefix}${formatNumber(currentVal)}${suffix}`;
+
+        if (progress < 1) {
+          requestAnimationFrame(updateCount);
+        } else {
+          el.textContent = `${prefix}${formatNumber(target)}${suffix}`;
+        }
+      };
+
+      requestAnimationFrame(updateCount);
+    });
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounters();
+      }
+    });
+  }, { threshold: 0.35 });
+
+  const statsSection = document.getElementById('stats-section');
+  if (statsSection) {
+    observer.observe(statsSection);
+  }
+
+  // Active header link updating on scroll
+  const navLinks = document.querySelectorAll('header nav a[data-path]');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.forEach(l => l.classList.remove('active', 'text-primary', 'font-bold'));
+      link.classList.add('active', 'text-primary', 'font-bold');
+    });
+  });
+});
+</script>
+</body></html>

@@ -1,0 +1,241 @@
+.hero-section {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  padding: 80px 0 120px;
+  border-radius: 0 0 40px 40px;
+  margin-bottom: 60px;
+}
+
+.hero-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  color: var(--color-on-primary);
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 40px;
+  max-width: 480px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.hero-actions .btn-outline {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--color-on-primary);
+}
+
+.hero-actions .btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.hero-image-placeholder {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  border-radius: var(--radius-xl);
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Features Grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.feature-card {
+  background-color: var(--color-surface-lowest);
+  padding: 32px 24px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-focus);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  background-color: var(--color-surface-dim);
+  border-radius: var(--radius-full);
+  margin-bottom: 24px;
+}
+
+.feature-title {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+
+.feature-desc {
+  color: var(--color-neutral);
+  font-size: 0.9375rem;
+}
+
+/* Loans Grid */
+.bg-surface-dim {
+  background-color: var(--color-surface-dim);
+}
+
+.loans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.loan-card {
+  background-color: var(--color-surface-lowest);
+  padding: 32px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+}
+
+.loan-title {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.loan-desc {
+  color: var(--color-neutral);
+  margin-bottom: 24px;
+}
+
+/* Fast Credit Care */
+.care-card {
+  background-color: var(--color-primary);
+  border-radius: 32px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.care-content {
+  padding: 64px;
+  color: var(--color-on-primary);
+}
+
+.care-title {
+  font-size: 2.5rem;
+  color: var(--color-on-primary);
+  margin-bottom: 24px;
+}
+
+.price-highlight {
+  color: var(--color-secondary);
+  display: block;
+  font-size: 3.5rem;
+}
+
+.care-desc {
+  font-size: 1.125rem;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 32px;
+}
+
+.care-benefits {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.care-benefits li {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.care-visual {
+  background: linear-gradient(135deg, #0a2252, #041a3e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.care-visual-placeholder {
+  width: 300px;
+  height: 400px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.care-badge {
+  background-color: var(--color-secondary);
+  color: var(--color-tertiary);
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 992px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .hero-subtitle {
+    margin: 0 auto 40px;
+  }
+  
+  .hero-actions {
+    justify-content: center;
+  }
+  
+  .care-card {
+    grid-template-columns: 1fr;
+  }
+  
+  .care-content {
+    padding: 40px 24px;
+  }
+  
+  .care-visual {
+    padding: 40px;
+  }
+}
+
+/* Hide scrollbar for loan cards carousel */
+.loans-carousel::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,81 @@
+.subscribe-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.subscribe-card {
+  background-color: var(--color-surface-lowest);
+  padding: 48px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
+  width: 100%;
+  max-width: 500px;
+}
+
+.subscribe-card .section-title {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  color: var(--color-primary);
+}
+
+.subscribe-card .section-subtitle {
+  margin-bottom: 32px;
+}
+
+.subscribe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-neutral);
+}
+
+.form-group input {
+  height: 52px;
+  background-color: var(--color-surface-lowest);
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0 16px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-tertiary);
+  transition: all 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(13, 44, 108, 0.12);
+}
+
+.w-full {
+  width: 100%;
+}
+
+.error-message {
+  background-color: #ffdad6;
+  color: #93000a;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.disclaimer {
+  color: var(--color-neutral);
+  text-align: center;
+}
