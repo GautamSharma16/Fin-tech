@@ -5,17 +5,30 @@ import hero1 from '../assets/Hero1 (1).webp';
 import hero2 from '../assets/Hero1 (2).webp';
 import hero3 from '../assets/Hero1 (3).webp';
 import hero4 from '../assets/Hero1 (4).webp';
+import bannerDesktop from '../assets/banner_desktop.png';
 import contactImg from '../assets/contact.png';
+import logoBirla   from '../assets/aditya birla.png';
+import logoHdb     from '../assets/HBD.webp';
+import logoMuthoot from '../assets/muthoot finance.png';
+import logoTata    from '../assets/tata.png';
+import logoMahindra from '../assets/mahindra finance.png';
+import logoBajaj   from '../assets/bajaj finance.png';
+import logoIndus   from '../assets/bank logo (1).webp';
+import logoBank1s  from '../assets/kotak.svg';
+import logoBank2   from '../assets/bank logo (2).svg';
+import logoBank3   from '../assets/bank logo (3).svg';
 
 const bankPartners = [
-  { code: 'HDFC',  name: 'HDFC Bank',             type: 'Banking Partner',    logo: null },
-  { code: 'ICICI', name: 'ICICI Bank',             type: 'Banking Partner',    logo: null },
-  { code: 'SBI',   name: 'State Bank of India',    type: 'Banking Partner',    logo: null },
-  { code: 'AXIS',  name: 'Axis Bank',              type: 'Banking Partner',    logo: null },
-  { code: 'KOTAK', name: 'Kotak Mahindra',         type: 'Banking Partner',    logo: null },
-  { code: 'PNB',   name: 'Punjab National Bank',   type: 'Banking Partner',    logo: null },
-  { code: 'BOB',   name: 'Bank of Baroda',         type: 'Banking Partner',    logo: null },
-  { code: 'IDFC',  name: 'IDFC FIRST Bank',        type: 'Banking Partner',    logo: null },
+  { code: 'BIRLA',   name: 'Aditya Birla',         logo: logoBirla,   dark: false },
+  { code: 'HDB',     name: 'HDB Financial',         logo: logoHdb,     dark: false },
+  { code: 'MUTHOOT', name: 'Muthoot Finance',       logo: logoMuthoot, dark: false },
+  { code: 'TATA',    name: 'Tata Capital',          logo: logoTata,    dark: false },
+  { code: 'MAHINDRA', name: 'Mahindra Finance',     logo: logoMahindra, dark: false },
+  { code: 'BAJAJ',   name: 'Bajaj Finance',         logo: logoBajaj,   dark: false },
+  { code: 'KOTAK',   name: 'Kotak Mahindra Bank',   logo: logoBank1s,  dark: false },
+  { code: 'YES',     name: 'YES Bank',              logo: logoBank2,   dark: false },
+  { code: 'IDFC',    name: 'IDFC FIRST Bank',       logo: logoBank3,   dark: false },
+  { code: 'INDUS',   name: 'IndusInd Bank',         logo: logoIndus,   dark: false },
 ];
 
 const heroSlides = [
@@ -23,7 +36,7 @@ const heroSlides = [
     id: 1,
     title: 'Instant Personal Loans',
     subtitle: 'Quick approvals & minimal documentation designed around your life goals.',
-    desktopImg: hero1,
+    desktopImg: bannerDesktop,
     mobileImg: null, // Ready for mobile image upload
     link: '/subscribe',
     btnText: 'Apply Now',
@@ -63,6 +76,29 @@ const Home = () => {
   const [activeCard, setActiveCard] = useState(0);
   const carouselRef = React.useRef(null);
   const TOTAL_LOAN_CARDS = 8;
+
+  const renderPartnerLogo = (partner) => (
+    <div
+      key={partner.code}
+      className="partner-logo-cell flex items-center justify-center px-8 py-5 cursor-pointer"
+    >
+      {partner.logo ? (
+        partner.dark ? (
+          <div className="bg-[#1a1a2e] rounded-xl px-4 py-2">
+            <img src={partner.logo} alt={partner.name} className="max-h-12 max-w-[180px] w-auto object-contain" />
+          </div>
+        ) : (
+          <div className={partner.code === 'KOTAK' ? 'bg-white rounded-xl px-4 py-2 shadow-sm border border-surface-container' : ''}>
+            <img src={partner.logo} alt={partner.name} className="h-12 max-w-[180px] w-auto object-contain" />
+          </div>
+        )
+      ) : (
+        <span className="font-title-sm text-title-sm font-extrabold text-on-surface-variant group-hover:text-primary transition-colors tracking-wide select-none whitespace-nowrap">
+          {partner.name}
+        </span>
+      )}
+    </div>
+  );
 
   useEffect(() => {
     if (isHovered) return;
@@ -234,26 +270,18 @@ const Home = () => {
             </p>
           </div>
 
-          {/* Logo row — add src to show logo; text hides automatically when logo loads */}
-          <div className="flex flex-wrap justify-center items-center gap-space-lg">
-            {bankPartners.map((partner) => (
-              <div
-                key={partner.code}
-                className="partner-logo-cell flex items-center justify-center px-8 py-5 group cursor-pointer"
-              >
-                {partner.logo ? (
-                  <img
-                    src={partner.logo}
-                    alt={partner.name}
-                    className="max-h-9 w-auto object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
-                  />
-                ) : (
-                  <span className="font-title-sm text-title-sm font-extrabold text-on-surface-variant group-hover:text-primary transition-colors tracking-wide select-none whitespace-nowrap">
-                    {partner.name}
-                  </span>
-                )}
-              </div>
-            ))}
+          {/* Logo row — text is used only when a partner has no image asset. */}
+          <div className="hidden md:flex flex-wrap justify-center items-center gap-space-lg">
+            {bankPartners.map(renderPartnerLogo)}
+          </div>
+
+          <div className="md:hidden partner-marquee-viewport space-y-2">
+            <div className="partner-marquee-track partner-marquee-track-left">
+              {[...bankPartners.slice(0, 5), ...bankPartners.slice(0, 5)].map(renderPartnerLogo)}
+            </div>
+            <div className="partner-marquee-track partner-marquee-track-right">
+              {[...bankPartners.slice(5), ...bankPartners.slice(5)].map(renderPartnerLogo)}
+            </div>
           </div>
         </div>
       </section>
