@@ -1,27 +1,32 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
-import Subscribe from './pages/Subscribe';
 import Contact from './pages/Contact';
+import Subscribe from './pages/Subscribe';
 
-// Placeholder components for other pages
-const Loans = () => <div className="container py-3xl"><h1 className="section-title">Loans</h1><p>Content coming soon.</p></div>;
-const About = () => <div className="container py-3xl"><h1 className="section-title">About Us</h1><p>Content coming soon.</p></div>;
-const Blog = () => <div className="container py-3xl"><h1 className="section-title">Blog</h1><p>Content coming soon.</p></div>;
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="loans" element={<Loans />} />
-          <Route path="about" element={<About />} />
-          <Route path="blog" element={<Blog />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="subscribe" element={<Subscribe />} />
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/apply" element={<Subscribe />} />
+          <Route path="/subscribe" element={<Subscribe />} />
         </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
