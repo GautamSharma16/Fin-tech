@@ -201,8 +201,8 @@ const Home = () => {
   return (
     <div className="flex flex-col w-full bg-surface">
       {/* SECTION 1: HERO SLIDER CAROUSEL (TATA CAPITAL STYLE) */}
-      <section className="relative overflow-hidden bg-surface py-4 md:py-6">
-        <div className="max-w-container-max mx-auto px-gutter-desktop">
+      <section className="relative overflow-hidden bg-surface py-0 md:py-6">
+        <div className="max-w-container-max mx-auto px-gutter-desktop max-sm:px-0">
           <div
             className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl shadow-xl group bg-surface-container-low"
             onMouseEnter={() => setIsHovered(true)}

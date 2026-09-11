@@ -22,7 +22,7 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300">
+    <header className="sticky top-0 left-0 right-0 w-full z-50 transition-all duration-300">
       {/* Top Utility Bar */}
       {!isScrolled && (
         <div className="hidden md:block bg-surface-container-low border-b border-surface-container/40 text-on-surface-variant text-xs py-1 px-4 md:px-gutter-desktop">
