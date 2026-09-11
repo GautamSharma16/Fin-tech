@@ -5,7 +5,6 @@ import credviaLogo from '../assets/credvia logo.png';
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [openSubmenu, setOpenSubmenu] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -22,10 +21,6 @@ const Navbar = () => {
 
   const isActive = (path) => location.pathname === path;
 
-  const toggleSubmenu = (menu) => {
-    setOpenSubmenu(openSubmenu === menu ? null : menu);
-  };
-
   return (
     <header className="fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300">
       {/* Top Utility Bar */}
@@ -38,9 +33,9 @@ const Navbar = () => {
               <span className="hidden sm:inline">Lucknow (UP)</span>
             </div>
             <div className="flex items-center gap-3 shrink-0">
-              <a href="tel:18002667777" className="hover:underline flex items-center gap-1 font-bold text-primary text-[11px] sm:text-xs">
+              <a href="tel:+918340421940" className="hover:underline flex items-center gap-1 font-bold text-primary text-[11px] sm:text-xs">
                 <span className="material-symbols-outlined text-xs">call</span>
-                1800-266-7777
+                +91 83404 21940
               </a>
               <span className="text-outline-variant">|</span>
               <Link to="/contact" className="hover:underline font-semibold text-[11px] sm:text-xs">SUPPORT</Link>
@@ -74,7 +69,7 @@ const Navbar = () => {
             <img
               src={credviaLogo}
               alt="Credvia Financial Services Logo"
-              className="h-10 sm:h-12 md:h-16 w-auto object-contain brightness-0 invert transition-transform duration-300 group-hover:scale-105"
+              className="w-32 h-auto sm:w-36 md:w-auto md:h-16 object-contain brightness-0 invert transition-transform duration-300 group-hover:scale-105"
             />
           </Link>
 
@@ -138,8 +133,8 @@ const Navbar = () => {
               <span className="material-symbols-outlined text-secondary-fixed text-base">support_agent</span>
               <div className="flex flex-col text-left">
                 <span className="text-[10px] text-white/70 uppercase font-semibold leading-tight">Toll-Free</span>
-                <a className="text-xs font-bold text-white hover:underline leading-tight" href="tel:18002667777">
-                  1800-266-7777
+                <a className="text-xs font-bold text-white hover:underline leading-tight" href="tel:+918340421940">
+                  +91 83404 21940
                 </a>
               </div>
             </div>
@@ -158,28 +153,31 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="lg:hidden px-4 max-w-container-max mx-auto animate-fadeIn">
           <div className="bg-white text-on-surface rounded-2xl p-4 shadow-2xl border border-surface-container my-2 flex flex-col gap-1">
-            {/* Menu Item 1: Loans for You */}
+            {/* Menu Item 1: Home */}
             <div className="border-b border-surface-container/60 pb-2 pt-1">
-              <button
-                onClick={() => toggleSubmenu('loans')}
-                className="w-full flex items-center justify-between py-2 text-sm font-bold text-primary hover:text-secondary-container transition-colors"
+              <Link
+                to="/"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center justify-between py-2 text-sm font-bold text-primary hover:text-secondary-container transition-colors"
               >
-                <span>Loans for You</span>
-                <span className="material-symbols-outlined text-base">
-                  {openSubmenu === 'loans' ? 'expand_less' : 'expand_more'}
-                </span>
-              </button>
-              {openSubmenu === 'loans' && (
-                <div className="pl-3 py-1 flex flex-col gap-2 text-xs text-on-surface-variant bg-surface-container-low rounded-xl p-2 my-1">
-                  <a href="/#loans-section" onClick={() => setIsMobileMenuOpen(false)} className="py-1 hover:text-primary font-medium">Personal Loan</a>
-                  <a href="/#loans-section" onClick={() => setIsMobileMenuOpen(false)} className="py-1 hover:text-primary font-medium">Business Loan</a>
-                  <a href="/#loans-section" onClick={() => setIsMobileMenuOpen(false)} className="py-1 hover:text-primary font-medium">Consumer Loan</a>
-                  <a href="/#loans-section" onClick={() => setIsMobileMenuOpen(false)} className="py-1 hover:text-primary font-medium">Home Loan & LAP</a>
-                </div>
-              )}
+                <span>Home</span>
+                <span className="material-symbols-outlined text-base">chevron_right</span>
+              </Link>
             </div>
 
-            {/* Menu Item 2: Financial Assistance */}
+            {/* Menu Item 2: Loans */}
+            <div className="border-b border-surface-container/60 py-2">
+              <a
+                href="/#loans-section"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center justify-between text-sm font-bold text-on-surface hover:text-primary transition-colors"
+              >
+                <span>Loans</span>
+                <span className="material-symbols-outlined text-base">chevron_right</span>
+              </a>
+            </div>
+
+            {/* Menu Item 3: Financial Assistance */}
             <div className="border-b border-surface-container/60 py-2">
               <Link
                 to="/subscribe"
@@ -196,26 +194,26 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {/* Menu Item 3: About Us */}
+            {/* Menu Item 4: About Us */}
             <div className="border-b border-surface-container/60 py-2">
               <Link
                 to="/about"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center justify-between text-sm font-bold text-on-surface hover:text-primary transition-colors"
               >
-                <span>About Credvia</span>
+                <span>About Us</span>
                 <span className="material-symbols-outlined text-base">chevron_right</span>
               </Link>
             </div>
 
-            {/* Menu Item 4: Contact Us */}
+            {/* Menu Item 5: Contact Us */}
             <div className="border-b border-surface-container/60 py-2">
               <Link
                 to="/contact"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center justify-between text-sm font-bold text-on-surface hover:text-primary transition-colors"
               >
-                <span>Contact &amp; Support</span>
+                <span>Contact Us</span>
                 <span className="material-symbols-outlined text-base">chevron_right</span>
               </Link>
             </div>

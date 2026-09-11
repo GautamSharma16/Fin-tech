@@ -310,8 +310,8 @@ const Contact = () => {
                   <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">
                     Toll-Free &amp; Direct Lines
                   </span>
-                  <a className="font-title-md text-title-md font-bold text-primary hover:underline" href="tel:18002667777">
-                    1800-266-7777
+                  <a className="font-title-md text-title-md font-bold text-primary hover:underline" href="tel:+918340421940">
+                    +91 83404 21940
                   </a>
                   <span className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
                     Direct Helpdesk:{' '}

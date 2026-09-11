@@ -6,6 +6,10 @@ import hero2 from '../assets/Hero1 (2).webp';
 import hero3 from '../assets/Hero1 (3).webp';
 import hero4 from '../assets/Hero1 (4).webp';
 import bannerDesktop from '../assets/banner_desktop.png';
+import mobileBanner1 from '../assets/mobile_banner (1).webp';
+import mobileBanner2 from '../assets/mobile_banner (2).webp';
+import mobileBanner4 from '../assets/mobile_banner (4).webp';
+import mobileBanner5 from '../assets/mobile_banner (5).webp';
 import contactImg from '../assets/contact.png';
 import logoBirla   from '../assets/aditya birla.png';
 import logoHdb     from '../assets/HBD.webp';
@@ -17,6 +21,13 @@ import logoIndus   from '../assets/bank logo (1).webp';
 import logoBank1s  from '../assets/kotak.svg';
 import logoBank2   from '../assets/bank logo (2).svg';
 import logoBank3   from '../assets/bank logo (3).svg';
+import logoPoonawalla from '../assets/POONAWALLA.NS_BIG.png';
+import logoLTFinance from '../assets/l & T finance.png';
+import logoIcici from '../assets/icici bank.png';
+import logoHeroFincorp from '../assets/hero-fincorp.png';
+import logoChola from '../assets/Chola Logo Unit - Black.jpg';
+import logoAxisFinance from '../assets/Axis Finance bank.webp';
+import logoAxisBank from '../assets/axis bank.png';
 
 const bankPartners = [
   { code: 'BIRLA',   name: 'Aditya Birla',         logo: logoBirla,   dark: false },
@@ -29,6 +40,13 @@ const bankPartners = [
   { code: 'YES',     name: 'YES Bank',              logo: logoBank2,   dark: false },
   { code: 'IDFC',    name: 'IDFC FIRST Bank',       logo: logoBank3,   dark: false },
   { code: 'INDUS',   name: 'IndusInd Bank',         logo: logoIndus,   dark: false },
+  { code: 'POONAWALLA', name: 'Poonawalla Fincorp', logo: logoPoonawalla, dark: false },
+  { code: 'LT',      name: 'L&T Finance',           logo: logoLTFinance, dark: false },
+  { code: 'ICICI',   name: 'ICICI Bank',            logo: logoIcici,   dark: false },
+  { code: 'HERO',    name: 'Hero Fincorp',          logo: logoHeroFincorp, dark: false },
+  { code: 'CHOLA',   name: 'Chola Finance',         logo: logoChola,   dark: false },
+  { code: 'AXIS_FINANCE', name: 'Axis Finance',      logo: logoAxisFinance, dark: false },
+  { code: 'AXIS',    name: 'Axis Bank',             logo: logoAxisBank, dark: false },
 ];
 
 const heroSlides = [
@@ -37,7 +55,7 @@ const heroSlides = [
     title: 'Instant Personal Loans',
     subtitle: 'Quick approvals & minimal documentation designed around your life goals.',
     desktopImg: bannerDesktop,
-    mobileImg: null, // Ready for mobile image upload
+    mobileImg: mobileBanner2,
     link: '/subscribe',
     btnText: 'Apply Now',
   },
@@ -46,7 +64,7 @@ const heroSlides = [
     title: 'Business & MSME Capital',
     subtitle: 'Collateral-free working capital credit up to ₹50 Lakhs.',
     desktopImg: hero2,
-    mobileImg: null,
+    mobileImg: mobileBanner5,
     link: '#loans-section',
     btnText: 'Explore Business Loans',
   },
@@ -55,7 +73,7 @@ const heroSlides = [
     title: 'Credvia Financial Advisory',
     subtitle: 'Professional credit assistance & 1-on-1 expert guidance.',
     desktopImg: hero3,
-    mobileImg: null,
+    mobileImg: mobileBanner1,
     link: '/subscribe',
     btnText: 'Get Financial Care',
   },
@@ -64,7 +82,7 @@ const heroSlides = [
     title: 'Home & LAP Solutions',
     subtitle: 'Long-tenure, large-ticket financing at competitive interest rates.',
     desktopImg: hero4,
-    mobileImg: null,
+    mobileImg: mobileBanner4,
     link: '#loans-section',
     btnText: 'Know More',
   },
@@ -89,7 +107,11 @@ const Home = () => {
           </div>
         ) : (
           <div className={partner.code === 'KOTAK' ? 'bg-white rounded-xl px-4 py-2 shadow-sm border border-surface-container' : ''}>
-            <img src={partner.logo} alt={partner.name} className="h-12 max-w-[180px] w-auto object-contain" />
+            <img
+              src={partner.logo}
+              alt={partner.name}
+              className={partner.code === 'AXIS' ? 'h-16 max-w-[220px] w-auto object-contain scale-125' : 'h-12 max-w-[180px] w-auto object-contain'}
+            />
           </div>
         )
       ) : (
@@ -187,7 +209,7 @@ const Home = () => {
             onMouseLeave={() => setIsHovered(false)}
           >
             {/* Banner Slider Aspect Frame */}
-            <div className="relative w-full h-[320px] sm:h-[400px] md:h-[480px] lg:h-[520px]">
+            <div className="relative w-full aspect-[1/2] sm:aspect-auto sm:h-[400px] md:h-[480px] lg:h-[520px]">
               {heroSlides.map((slide, index) => (
                 <div
                   key={slide.id}
@@ -255,38 +277,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SECTION 2: OUR PARTNERS (LOGO GRID) */}
-      <section className="py-space-2xl bg-surface-container-lowest border-y border-surface-container/60">
-        <div className="max-w-container-max mx-auto px-gutter-desktop">
-          <div className="text-center mb-space-xl">
-            <span className="px-space-md py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm uppercase tracking-widest font-extrabold mb-space-2xs inline-block">
-              Trusted Alliances
-            </span>
-            <h2 className="font-title-lg text-title-lg md:text-headline-sm text-on-surface font-bold tracking-tight mt-space-2xs">
-              Our Banking &amp; Financial Partners
-            </h2>
-            <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">
-              Partnered with leading Indian banks &amp; financial institutions for quick approvals and best interest rates.
-            </p>
-          </div>
-
-          {/* Logo row — text is used only when a partner has no image asset. */}
-          <div className="hidden md:flex flex-wrap justify-center items-center gap-space-lg">
-            {bankPartners.map(renderPartnerLogo)}
-          </div>
-
-          <div className="md:hidden partner-marquee-viewport space-y-2">
-            <div className="partner-marquee-track partner-marquee-track-left">
-              {[...bankPartners.slice(0, 5), ...bankPartners.slice(0, 5)].map(renderPartnerLogo)}
-            </div>
-            <div className="partner-marquee-track partner-marquee-track-right">
-              {[...bankPartners.slice(5), ...bankPartners.slice(5)].map(renderPartnerLogo)}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 3: WHY CHOOSE CREDVIA */}
+      {/* SECTION 2: WHY CHOOSE CREDVIA */}
       <section className="py-space-3xl bg-surface-container-low">
         <div className="max-w-container-max mx-auto px-gutter-desktop">
           <div className="flex flex-col items-center text-center mb-space-2xl">
@@ -405,7 +396,46 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SECTION 3: OUR LOAN SOLUTIONS */}
+      {/* SECTION 3: OUR PARTNERS (LOGO GRID) */}
+      <section className="py-space-2xl bg-surface-container-lowest border-y border-surface-container/60">
+        <div className="max-w-container-max mx-auto px-gutter-desktop">
+          <div className="text-center mb-space-xl">
+            <span className="px-space-md py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm uppercase tracking-widest font-extrabold mb-space-2xs inline-block">
+              Trusted Alliances
+            </span>
+            <h2 className="font-title-lg text-title-lg md:text-headline-sm text-on-surface font-bold tracking-tight mt-space-2xs">
+              Our Banking &amp; Financial Partners
+            </h2>
+            <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">
+              Partnered with leading Indian banks &amp; financial institutions for quick approvals and best interest rates.
+            </p>
+          </div>
+
+          {/* Desktop logo marquee — text is used only when a partner has no image asset. */}
+          <div className="hidden md:flex partner-marquee-viewport flex-col gap-2">
+            <div className="partner-marquee-track partner-marquee-track-left">
+              {[...bankPartners.slice(0, 6), ...bankPartners.slice(0, 6)].map(renderPartnerLogo)}
+            </div>
+            <div className="partner-marquee-track partner-marquee-track-right">
+              {[...bankPartners.slice(6, 12), ...bankPartners.slice(6, 12)].map(renderPartnerLogo)}
+            </div>
+            <div className="partner-marquee-track partner-marquee-track-left">
+              {[...bankPartners.slice(12), ...bankPartners.slice(12)].map(renderPartnerLogo)}
+            </div>
+          </div>
+
+          <div className="md:hidden partner-marquee-viewport space-y-2">
+            <div className="partner-marquee-track partner-marquee-track-left">
+              {[...bankPartners.slice(0, 5), ...bankPartners.slice(0, 5)].map(renderPartnerLogo)}
+            </div>
+            <div className="partner-marquee-track partner-marquee-track-right">
+              {[...bankPartners.slice(5), ...bankPartners.slice(5)].map(renderPartnerLogo)}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: OUR LOAN SOLUTIONS */}
       <section className="py-space-3xl bg-surface" id="loans-section">
         <div className="max-w-container-max mx-auto px-gutter-desktop">
           <div className="w-full flex flex-col md:flex-row md:items-end justify-between mb-space-2xl gap-space-md items-start text-left">
@@ -543,36 +573,36 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Consumer Loan Card */}
+              {/* Auto Loan Card */}
               <div className="flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-2xl hover:-translate-y-2 border border-transparent hover:border-secondary-fixed transition-all duration-300 relative overflow-hidden group shrink-0 w-72 snap-start">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-full -z-0 group-hover:scale-125 transition-transform duration-500 ease-out"></div>
                 <div className="relative z-10 flex flex-col">
                   <div className="flex items-center justify-between mb-space-md">
                     <span className="px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm font-extrabold uppercase tracking-wide group-hover:bg-secondary group-hover:text-white transition-colors">
-                      0% EMI Options
+                      UP TO 90% FINANCE
                     </span>
                     <span className="material-symbols-outlined text-primary text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
-                      shopping_bag
+                      directions_car
                     </span>
                   </div>
                   <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
-                    Consumer Loan
+                    Auto Loan
                   </h3>
                   <p className="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
-                    Low-cost and zero-cost EMI financing for digital electronics, high-efficiency appliances, and lifestyle goods.
+                    Drive your dream car home with hassle-free financing and easy EMI options.
                   </p>
                   <div className="space-y-space-xs mb-space-xl">
                     <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200">
                       <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
-                      <span>Instant merchant checkout</span>
+                      <span>Finance up to 90% of car value</span>
                     </div>
                     <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-75">
                       <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
-                      <span>No down payment schemes</span>
+                      <span>All makes &amp; models covered</span>
                     </div>
                     <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-150">
                       <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
-                      <span>Approval in under 3 minutes</span>
+                      <span>Quick approval within 24 hours</span>
                     </div>
                   </div>
                 </div>
@@ -602,7 +632,7 @@ const Home = () => {
                     </span>
                   </div>
                   <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
-                    Home &amp; LAP
+                    Home
                   </h3>
                   <p className="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
                     Long-tenure, large-ticket financing secured against residential or commercial properties for landmark projects.
@@ -752,11 +782,57 @@ const Home = () => {
                     </div>
                     <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-75">
                       <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
-                      <span>Tenure up to 48 months</span>
+                      <span>Tenure up to 84 months</span>
                     </div>
                     <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-150">
                       <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
                       <span>Instant dealer disbursement</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="relative z-10 pt-space-md">
+                  <Link
+                    to="/subscribe"
+                    className="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn"
+                  >
+                    <span>Apply Now</span>
+                    <span className="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">
+                      arrow_forward
+                    </span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Flexi Loan Card */}
+              <div className="flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-2xl hover:-translate-y-2 border border-transparent hover:border-secondary-fixed transition-all duration-300 relative overflow-hidden group shrink-0 w-72 snap-start">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-full -z-0 group-hover:scale-125 transition-transform duration-500 ease-out"></div>
+                <div className="relative z-10 flex flex-col">
+                  <div className="flex items-center justify-between mb-space-md">
+                    <span className="px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm font-extrabold uppercase tracking-wide group-hover:bg-secondary group-hover:text-white transition-colors">
+                      ROI: 11.75% p.a.
+                    </span>
+                    <span className="material-symbols-outlined text-primary text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
+                      account_balance_wallet
+                    </span>
+                  </div>
+                  <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
+                    Flexi Loan
+                  </h3>
+                  <p className="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+                    Flexible credit with convenient withdrawals and repayments for your financial needs.
+                  </p>
+                  <div className="space-y-space-xs mb-space-xl">
+                    <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200">
+                      <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
+                      <span>Tenure up to 9 Years</span>
+                    </div>
+                    <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-75">
+                      <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
+                      <span>OD / Overdraft facility</span>
+                    </div>
+                    <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-150">
+                      <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
+                      <span>Hybrid Flexi repayments</span>
                     </div>
                   </div>
                 </div>
@@ -1119,8 +1195,8 @@ const Home = () => {
                     <p className="font-label-md text-label-md font-bold text-on-surface">Phone</p>
                     <p className="font-body-md text-body-md text-on-surface-variant">
                       We are available on{' '}
-                      <a href="tel:18002667777" className="text-primary font-semibold hover:underline underline-offset-2">
-                        1800-266-7777
+                      <a href="tel:+918340421940" className="text-primary font-semibold hover:underline underline-offset-2">
+                        +91 83404 21940
                       </a>
                     </p>
                   </div>
@@ -1174,7 +1250,7 @@ const Home = () => {
                 data-suffix="K+"
                 data-target="10"
               >
-                10K+
+                2 Lac+
               </span>
               <span className="font-label-md text-label-md text-on-surface-variant">Customers Assisted</span>
             </div>
@@ -1283,11 +1359,11 @@ const Home = () => {
                 Apply Now
               </Link>
               <a
-                href="tel:18002667777"
+                href="tel:+918340421940"
                 className="inline-flex items-center gap-space-xs px-space-xl py-space-sm rounded-full bg-surface-container text-primary font-label-lg text-label-lg font-bold hover:bg-surface-container-high hover:scale-105 active:scale-95 transition-all duration-200"
               >
                 <span className="material-symbols-outlined text-lg">call</span>
-                <span>1800-266-7777</span>
+                <span>+91 83404 21940</span>
               </a>
             </div>
           </div>

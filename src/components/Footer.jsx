@@ -84,8 +84,8 @@ const Footer = () => {
                 </span>
                 <div>
                   <span className="block font-label-sm text-label-sm text-tertiary-fixed-dim">Toll Free Support</span>
-                  <a className="text-on-tertiary font-bold hover:underline" href="tel:18002667777">
-                    1800-266-7777
+                  <a className="text-on-tertiary font-bold hover:underline" href="tel:+918340421940">
+                    +91 83404 21940
                   </a>
                 </div>
               </div>

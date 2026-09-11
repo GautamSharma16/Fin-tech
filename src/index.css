@@ -212,6 +212,16 @@ img {
   animation: partner-scroll-right 22s linear infinite;
 }
 
+@media (min-width: 768px) {
+  .partner-marquee-track-left {
+    animation-duration: 28s;
+  }
+
+  .partner-marquee-track-right {
+    animation-duration: 32s;
+  }
+}
+
 @keyframes partner-scroll-left {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
