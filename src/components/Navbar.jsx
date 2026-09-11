@@ -48,8 +48,8 @@ const Navbar = () => {
       <div
         className={`transition-all duration-300 ${
           isScrolled
-            ? 'w-full rounded-none bg-primary/95 backdrop-blur-md shadow-xl py-2.5 px-4 md:px-gutter-desktop border-b border-white/10'
-            : 'max-w-container-max mx-auto px-4 sm:px-6 my-1.5 sm:my-2 rounded-2xl bg-primary text-white shadow-xl border border-white/10 py-2.5 max-sm:w-full max-sm:mx-0 max-sm:my-0 max-sm:rounded-none'
+            ? 'w-full rounded-none bg-primary/95 backdrop-blur-md shadow-xl py-2.5 px-4 md:px-gutter-desktop border-b border-white/10 max-sm:py-1.5'
+            : 'max-w-container-max mx-auto px-4 sm:px-6 my-1.5 sm:my-2 rounded-2xl bg-primary text-white shadow-xl border border-white/10 py-2.5 max-sm:w-full max-sm:mx-0 max-sm:my-0 max-sm:rounded-none max-sm:py-1.5'
         }`}
       >
         <div className="max-w-container-max mx-auto flex items-center justify-between gap-2 sm:gap-space-md">
