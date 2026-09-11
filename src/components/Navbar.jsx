@@ -25,7 +25,7 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300">
       {/* Top Utility Bar */}
       {!isScrolled && (
-        <div className="bg-surface-container-low border-b border-surface-container/40 text-on-surface-variant text-xs py-1 px-4 md:px-gutter-desktop">
+        <div className="hidden md:block bg-surface-container-low border-b border-surface-container/40 text-on-surface-variant text-xs py-1 px-4 md:px-gutter-desktop">
           <div className="max-w-container-max mx-auto flex items-center justify-between">
             <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
               <span className="font-bold text-primary tracking-wide text-[11px] sm:text-xs">CREDVIA FINANCIAL SERVICES</span>
@@ -49,7 +49,7 @@ const Navbar = () => {
         className={`transition-all duration-300 ${
           isScrolled
             ? 'w-full rounded-none bg-primary/95 backdrop-blur-md shadow-xl py-2.5 px-4 md:px-gutter-desktop border-b border-white/10'
-            : 'max-w-container-max mx-auto px-4 sm:px-6 my-1.5 sm:my-2 rounded-2xl bg-primary text-white shadow-xl border border-white/10 py-2.5'
+            : 'max-w-container-max mx-auto px-4 sm:px-6 my-1.5 sm:my-2 rounded-2xl bg-primary text-white shadow-xl border border-white/10 py-2.5 max-sm:w-full max-sm:mx-0 max-sm:my-0 max-sm:rounded-none'
         }`}
       >
         <div className="max-w-container-max mx-auto flex items-center justify-between gap-2 sm:gap-space-md">
@@ -69,7 +69,7 @@ const Navbar = () => {
             <img
               src={credviaLogo}
               alt="Credvia Financial Services Logo"
-              className="w-32 h-auto sm:w-36 md:w-auto md:h-16 object-contain brightness-0 invert transition-transform duration-300 group-hover:scale-105"
+              className="h-12 sm:h-14 md:h-16 w-auto object-contain brightness-0 invert transition-transform duration-300 group-hover:scale-105"
             />
           </Link>
 

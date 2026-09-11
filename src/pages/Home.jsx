@@ -424,12 +424,15 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="md:hidden partner-marquee-viewport space-y-2">
+          <div className="md:hidden partner-marquee-viewport flex flex-col gap-2">
             <div className="partner-marquee-track partner-marquee-track-left">
-              {[...bankPartners.slice(0, 5), ...bankPartners.slice(0, 5)].map(renderPartnerLogo)}
+              {[...bankPartners.slice(0, 6), ...bankPartners.slice(0, 6)].map(renderPartnerLogo)}
             </div>
             <div className="partner-marquee-track partner-marquee-track-right">
-              {[...bankPartners.slice(5), ...bankPartners.slice(5)].map(renderPartnerLogo)}
+              {[...bankPartners.slice(6, 12), ...bankPartners.slice(6, 12)].map(renderPartnerLogo)}
+            </div>
+            <div className="partner-marquee-track partner-marquee-track-left">
+              {[...bankPartners.slice(12), ...bankPartners.slice(12)].map(renderPartnerLogo)}
             </div>
           </div>
         </div>
