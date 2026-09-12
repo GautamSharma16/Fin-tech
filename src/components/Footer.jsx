@@ -83,7 +83,7 @@ const Footer = () => {
                   call
                 </span>
                 <div>
-                  <span className="block font-label-sm text-label-sm text-tertiary-fixed-dim">Toll Free Support</span>
+                  <span className="block font-label-sm text-label-sm text-tertiary-fixed-dim">Customer Support</span>
                   <a className="text-on-tertiary font-bold hover:underline" href="tel:+918340421940">
                     +91 83404 21940
                   </a>
@@ -95,8 +95,8 @@ const Footer = () => {
                 </span>
                 <div>
                   <span className="block font-label-sm text-label-sm text-tertiary-fixed-dim">Customer Support</span>
-                  <a className="text-on-tertiary hover:underline break-all" href="mailto:support@credviafinancial.com">
-                    support@credviafinancial.com
+                  <a className="text-on-tertiary hover:underline break-all" href="mailto:khantanzeel321@gmail.com">
+                    khantanzeel321@gmail.com
                   </a>
                 </div>
               </div>

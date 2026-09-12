@@ -127,16 +127,16 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Sleek Tata Capital style Mobile Floating Card Dropdown */}
+      {/* Mobile Dropdown — same dark navy as desktop navbar */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 z-50 px-4 max-w-container-max mx-auto animate-fadeIn">
-          <div className="bg-white text-on-surface rounded-2xl p-4 shadow-2xl border border-surface-container my-2 flex flex-col gap-1">
+        <div className="lg:hidden absolute top-full left-0 right-0 z-50 px-4 animate-fadeIn">
+          <div className="bg-[#001849] rounded-2xl p-4 shadow-2xl border border-white/10 my-2 flex flex-col gap-1">
             {/* Menu Item 1: Home */}
-            <div className="border-b border-surface-container/60 pb-2 pt-1">
+            <div className="border-b border-white/10 pb-2 pt-1">
               <Link
                 to="/"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-between py-2 text-sm font-bold text-primary hover:text-secondary-container transition-colors"
+                className="flex items-center justify-between py-2 text-sm font-bold text-white/90 hover:text-white transition-colors"
               >
                 <span>Home</span>
                 <span className="material-symbols-outlined text-base">chevron_right</span>
@@ -144,15 +144,15 @@ const Navbar = () => {
             </div>
 
             {/* Menu Item 2: Financial Assistance */}
-            <div className="border-b border-surface-container/60 py-2">
+            <div className="border-b border-white/10 py-2">
               <Link
                 to="/subscribe"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-between text-sm font-bold text-on-surface hover:text-primary transition-colors"
+                className="flex items-center justify-between text-sm font-bold text-white/90 hover:text-white transition-colors"
               >
                 <div className="flex items-center gap-2">
                   <span>Financial Assistance</span>
-                  <span className="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed text-[10px] font-extrabold uppercase">
+                  <span className="px-2 py-0.5 rounded-full bg-[#bef53c] text-[#141f00] text-[10px] font-extrabold uppercase">
                     POPULAR
                   </span>
                 </div>
@@ -160,24 +160,24 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {/* Menu Item 4: About Us */}
-            <div className="border-b border-surface-container/60 py-2">
+            {/* Menu Item 3: About Us */}
+            <div className="border-b border-white/10 py-2">
               <Link
                 to="/about"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-between text-sm font-bold text-on-surface hover:text-primary transition-colors"
+                className="flex items-center justify-between text-sm font-bold text-white/90 hover:text-white transition-colors"
               >
                 <span>About Us</span>
                 <span className="material-symbols-outlined text-base">chevron_right</span>
               </Link>
             </div>
 
-            {/* Menu Item 5: Contact Us */}
-            <div className="border-b border-surface-container/60 py-2">
+            {/* Menu Item 4: Contact Us */}
+            <div className="border-b border-white/10 py-2">
               <Link
                 to="/contact"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-between text-sm font-bold text-on-surface hover:text-primary transition-colors"
+                className="flex items-center justify-between text-sm font-bold text-white/90 hover:text-white transition-colors"
               >
                 <span>Contact Us</span>
                 <span className="material-symbols-outlined text-base">chevron_right</span>
@@ -188,7 +188,7 @@ const Navbar = () => {
             <div className="pt-2">
               <a
                 href="tel:+918340421940"
-                className="flex items-center gap-2 text-sm font-bold text-primary"
+                className="flex items-center gap-2 text-sm font-bold text-white/90"
               >
                 <span className="material-symbols-outlined text-base">call</span>
                 +91 83404 21940
@@ -200,9 +200,9 @@ const Navbar = () => {
               <Link
                 to="/subscribe"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full py-3 rounded-xl bg-secondary-fixed text-on-secondary-fixed font-bold text-sm flex items-center justify-center gap-2 shadow-md"
+                className="w-full py-3 rounded-xl bg-[#bef53c] text-black font-bold text-sm flex items-center justify-center gap-2 shadow-md"
               >
-                <span>Apply for Loan</span>
+                <span>Apply Now</span>
                 <span className="material-symbols-outlined text-base">arrow_forward</span>
               </Link>
             </div>

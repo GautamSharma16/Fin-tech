@@ -9,7 +9,6 @@ import {
   Check,
   CheckCircle2,
   ChevronRight,
-  CreditCard,
   FileCheck2,
   Landmark,
   Lock,
@@ -17,9 +16,7 @@ import {
   MapPin,
   Phone,
   ShieldCheck,
-  Smartphone,
   UserRound,
-  Wallet,
 } from 'lucide-react';
 import step1Image from '../assets/step1img.png';
 import step2Image from '../assets/step2img.png';
@@ -123,6 +120,10 @@ function validateStep(step, data) {
   return errors;
 }
 
+function makeSubmissionId(prefix = 'CRV') {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+}
+
 function ApplicationPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
@@ -130,10 +131,9 @@ function ApplicationPage() {
   const [errors, setErrors] = useState({});
   const [saved, setSaved] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [view, setView] = useState('form');
-  const [paymentMethod, setPaymentMethod] = useState('UPI');
-  const applicationId = 'CRV-' + new Date().getFullYear() + '-1042';
-  const paymentId = 'PAY-' + applicationId.slice(-4) + '81';
+  const [submitError, setSubmitError] = useState('');
+  const [applicationId] = useState(() => makeSubmissionId(`CRV-${new Date().getFullYear()}`));
+  const [submissionId] = useState(() => makeSubmissionId('APP'));
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(data));
@@ -161,29 +161,135 @@ function ApplicationPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const submitApplication = () => {
-    const allErrors = { ...validateStep(1, data), ...validateStep(2, data), ...validateStep(3, data) };
+  // Main submit: save to Google Sheets → create Razorpay order → open checkout
+  const submitApplication = async () => {
+    // Validate all steps
+    const allErrors = {
+      ...validateStep(1, data),
+      ...validateStep(2, data),
+      ...validateStep(3, data),
+    };
     if (!data.confirmed) allErrors.confirmed = 'Please confirm the information before submitting.';
     if (Object.keys(allErrors).length) {
       setErrors(allErrors);
       if (Object.keys(validateStep(1, data)).length) setStep(1);
       else if (Object.keys(validateStep(2, data)).length) setStep(2);
       else if (Object.keys(validateStep(3, data)).length) setStep(3);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    setSubmitting(true);
-    window.setTimeout(() => {
-      setSubmitting(false);
-      setView('payment');
-    }, 900);
-  };
 
-  if (view === 'payment') {
-    return <PaymentView amount={serviceAmount} applicationId={applicationId} method={paymentMethod} setMethod={setPaymentMethod} onPaid={() => setView('success')} />;
-  }
-  if (view === 'success') {
-    return <SuccessView amount={serviceAmount} applicationId={applicationId} paymentId={paymentId} onStatus={() => navigate('/')} />;
-  }
+    if (!window.Razorpay) {
+      setSubmitError('Payment gateway could not be loaded. Please refresh the page and try again.');
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitError('');
+
+    try {
+      // ── Step 1: Save to Google Sheets ──────────────────────────────────────
+      await fetch('/api/submit-to-sheets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          applicationId,
+          submissionId,
+          paymentStatus: 'pending',
+        }),
+      });
+      // Sheets failure is non-blocking — we always proceed to payment
+
+      // ── Step 2: Create Razorpay one-time order ─────────────────────────────
+      const orderRes = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:          data.applicantName,
+          email:         data.email,
+          phone:         data.mobile,
+          applicationId,
+          submissionId,
+        }),
+      });
+      const order = await orderRes.json();
+      if (!orderRes.ok || !order.success) {
+        throw new Error(order.message || 'Failed to create payment order. Please try again.');
+      }
+
+      // ── Step 3: Open Razorpay checkout ────────────────────────────────────
+      const razorpay = new window.Razorpay({
+        key:         order.key_id,
+        order_id:    order.order_id,
+        amount:      order.amount,
+        currency:    order.currency,
+        name:        'Credvia Financial Services',
+        description: 'Credvia Care — One-Time Financial Assistance',
+        prefill: {
+          name:    data.applicantName,
+          email:   data.email,
+          contact: data.mobile,
+        },
+        notes: { applicationId, submissionId },
+        theme: { color: '#001849' },
+        modal: {
+          ondismiss: () => {
+            setSubmitting(false);
+            setSubmitError('Payment was cancelled. Your details are saved — click Submit to try again.');
+          },
+        },
+        handler: async (response) => {
+          // response = { razorpay_order_id, razorpay_payment_id, razorpay_signature }
+          try {
+            // ── Step 4: Verify payment signature ────────────────────────────
+            const verifyRes = await fetch('/api/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(response),
+            });
+            const verified = await verifyRes.json();
+            if (!verifyRes.ok || !verified.success) {
+              throw new Error(verified.message || 'Payment verification failed. Please contact support.');
+            }
+
+            // ── Step 5: Update Google Sheet with payment success ─────────────
+            await fetch('/api/submit-to-sheets', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...data,
+                applicationId,
+                submissionId,
+                paymentStatus:     'paid',
+                razorpayOrderId:   response.razorpay_order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+              }),
+            });
+
+            // ── Step 6: Clear saved form data and redirect ───────────────────
+            localStorage.removeItem(storageKey);
+            navigate(
+              `/thank-you?applicationId=${encodeURIComponent(applicationId)}&paymentId=${encodeURIComponent(response.razorpay_payment_id)}`
+            );
+          } catch (error) {
+            setSubmitting(false);
+            setSubmitError(error.message);
+          }
+        },
+      });
+
+      razorpay.on('payment.failed', (response) => {
+        setSubmitting(false);
+        setSubmitError(response.error?.description || 'Payment failed. Please try again.');
+      });
+
+      razorpay.open();
+    } catch (error) {
+      setSubmitting(false);
+      setSubmitError(error.message);
+    }
+  };
 
   const content = panelContent[step - 1];
   const progress = ((step - 1) / 3) * 100;
@@ -202,28 +308,80 @@ function ApplicationPage() {
           {steps.map((label, index) => {
             const number = index + 1;
             const complete = number < step;
-            return <div className={`progress-step ${number === step ? 'active' : ''} ${complete ? 'complete' : ''}`} key={label}>
-              <span className="progress-node">{complete ? <Check size={15} /> : number}</span><span>{label}</span>
-            </div>;
+            return (
+              <div className={`progress-step ${number === step ? 'active' : ''} ${complete ? 'complete' : ''}`} key={label}>
+                <span className="progress-node">{complete ? <Check size={15} /> : number}</span>
+                <span>{label}</span>
+              </div>
+            );
           })}
         </div>
 
         <div className="application-layout">
           <aside className="application-sidebar">
-            <div className="panel-copy"><span className="panel-eyebrow">{content.eyebrow}</span><h2>{content.heading}</h2><p>{content.description}</p></div>
+            <div className="panel-copy">
+              <span className="panel-eyebrow">{content.eyebrow}</span>
+              <h2>{content.heading}</h2>
+              <p>{content.description}</p>
+            </div>
             <div className="benefit-list">
-              {content.benefits.map(([title, description, Icon]) => <div className="benefit" key={title}><span className="benefit-icon"><Icon size={17} /></span><span><strong>{title}</strong><small>{description}</small></span></div>)}
+              {content.benefits.map(([title, description, Icon]) => (
+                <div className="benefit" key={title}>
+                  <span className="benefit-icon"><Icon size={17} /></span>
+                  <span><strong>{title}</strong><small>{description}</small></span>
+                </div>
+              ))}
             </div>
             <Illustration type={content.art} />
           </aside>
 
           <section className="application-card">
-            {step < 4 ? <>
-              <div className="card-heading"><span className="card-icon"><UserRound size={20} /></span><div><h2>{steps[step - 1]}</h2><p>{step === 1 ? 'Please provide your basic information.' : step === 2 ? 'Please provide your current employment information.' : 'Please provide your salary account information.'}</p></div><span className="mandatory">* All fields are mandatory</span></div>
-              <div className="fields-grid">{fieldGroups[step].map(([label, key, type, Icon]) => <FormField key={key} label={label} name={key} type={type} icon={Icon} value={data[key]} error={errors[key]} options={options[key]} onChange={update} />)}</div>
-              {step === 3 && <div className="security-box"><Lock size={18} /><span>Your banking information is encrypted and used only for application verification.</span></div>}
-              <div className="form-actions"><button type="button" className="outline-button" onClick={step === 1 ? saveAndExit : () => { setStep(step - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>{step === 1 ? (saved ? 'Progress Saved' : 'Save & Exit') : <><ArrowLeft size={16} /> Back: {steps[step - 2]}</>}</button><button type="button" className="solid-button" onClick={goNext}>{step === 3 ? 'Continue to Review' : `Next: ${steps[step]} `}<ArrowRight size={16} /></button></div>
-            </> : <Review data={data} errors={errors} setStep={setStep} update={update} onSubmit={submitApplication} submitting={submitting} />}
+            {step < 4 ? (
+              <>
+                <div className="card-heading">
+                  <span className="card-icon"><UserRound size={20} /></span>
+                  <div>
+                    <h2>{steps[step - 1]}</h2>
+                    <p>
+                      {step === 1 ? 'Please provide your basic information.'
+                        : step === 2 ? 'Please provide your current employment information.'
+                        : 'Please provide your salary account information.'}
+                    </p>
+                  </div>
+                  <span className="mandatory">* All fields are mandatory</span>
+                </div>
+                <div className="fields-grid">
+                  {fieldGroups[step].map(([label, key, type, Icon]) => (
+                    <FormField key={key} label={label} name={key} type={type} icon={Icon} value={data[key]} error={errors[key]} options={options[key]} onChange={update} />
+                  ))}
+                </div>
+                {step === 3 && (
+                  <div className="security-box">
+                    <Lock size={18} />
+                    <span>Your banking information is encrypted and used only for application verification.</span>
+                  </div>
+                )}
+                <div className="form-actions">
+                  <button type="button" className="outline-button" onClick={step === 1 ? saveAndExit : () => { setStep(step - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                    {step === 1 ? (saved ? 'Progress Saved' : 'Save & Exit') : <><ArrowLeft size={16} /> Back: {steps[step - 2]}</>}
+                  </button>
+                  <button type="button" className="solid-button" onClick={goNext}>
+                    {step === 3 ? 'Continue to Review' : `Next: ${steps[step]} `}<ArrowRight size={16} />
+                  </button>
+                </div>
+              </>
+            ) : (
+              <Review
+                data={data}
+                errors={errors}
+                setStep={setStep}
+                update={update}
+                onSubmit={submitApplication}
+                submitting={submitting}
+                submitError={submitError}
+                amount={serviceAmount}
+              />
+            )}
           </section>
         </div>
       </div>
@@ -232,32 +390,94 @@ function ApplicationPage() {
 }
 
 function FormField({ label, name, type, icon: Icon, value, error, options: fieldOptions, onChange }) {
-  const control = type === 'select' ? <select value={value} onChange={(event) => onChange(name, event.target.value)}><option value="">Select {label.toLowerCase()}</option>{fieldOptions.map((option) => <option key={option} value={option}>{option}</option>)}</select> : type === 'textarea' ? <textarea value={value} onChange={(event) => onChange(name, event.target.value)} placeholder={`Enter ${label.toLowerCase()}`} rows="3" /> : <input type={type} value={value} onChange={(event) => onChange(name, event.target.value)} placeholder={`Enter ${label.toLowerCase()}`} />;
-  return <label className={`form-field ${error ? 'has-error' : ''}`}><span>{label} <b>*</b></span><div className="control"><Icon size={16} />{control}</div>{error && <small className="field-error">{error}</small>}</label>;
+  const control = type === 'select'
+    ? <select value={value} onChange={(e) => onChange(name, e.target.value)}>
+        <option value="">Select {label.toLowerCase()}</option>
+        {fieldOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+      </select>
+    : type === 'textarea'
+    ? <textarea value={value} onChange={(e) => onChange(name, e.target.value)} placeholder={`Enter ${label.toLowerCase()}`} rows="3" />
+    : <input type={type} value={value} onChange={(e) => onChange(name, e.target.value)} placeholder={`Enter ${label.toLowerCase()}`} />;
+
+  return (
+    <label className={`form-field ${error ? 'has-error' : ''}`}>
+      <span>{label} <b>*</b></span>
+      <div className="control"><Icon size={16} />{control}</div>
+      {error && <small className="field-error">{error}</small>}
+    </label>
+  );
 }
 
-function Review({ data, errors, setStep, update, onSubmit, submitting }) {
+function Review({ data, errors, setStep, update, onSubmit, submitting, submitError, amount }) {
   const sections = [
     ['Personal Details', UserRound, [['Applicant Name', data.applicantName], ['Mobile No', data.mobile], ['PAN', data.pan], ['Aadhaar', data.aadhar], ['Email', data.email], ['Residence Address', data.address]]],
     ['Employment Details', BriefcaseBusiness, [['Company Name', data.companyName], ['Occupation Type', data.occupationType], ['Designation', data.designation], ['Department', data.department], ['Office Address', data.officeAddress]]],
     ['Bank Details', Landmark, [['Bank Name', data.bankName], ['Account Number', `XXXX XXXX ${String(data.accountNo).slice(-4)}`], ['Branch Name', data.branchName]]],
   ];
-  return <div className="review-content"><div className="card-heading"><span className="card-icon"><FileCheck2 size={20} /></span><div><h2>Review &amp; Submit</h2><p>Please review the details below before submitting.</p></div></div><div className="review-sections">{sections.map(([title, Icon, values], index) => <div className="review-section" key={title}><div className="review-section-head"><span><Icon size={17} />{title}<CheckCircle2 size={16} className="verified" /></span><button type="button" onClick={() => { setStep(index + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Edit</button></div><div className="review-values">{values.map(([label, value]) => <div key={label}><small>{label}</small><strong>{value || 'Not provided'}</strong></div>)}</div></div>)}</div><label className="confirm-line"><input type="checkbox" checked={data.confirmed} onChange={(event) => update('confirmed', event.target.checked)} /><span>I confirm that the information provided above is accurate and complete.</span></label>{errors.confirmed && <small className="field-error">{errors.confirmed}</small>}<div className="review-security"><Lock size={15} />Your information is protected using secure data handling practices.</div><div className="form-actions"><button type="button" className="outline-button" onClick={() => setStep(3)}><ArrowLeft size={16} /> Back: Bank Details</button><button type="button" className="solid-button" disabled={submitting} onClick={onSubmit}>{submitting ? 'Submitting your application...' : 'Submit Application'}<ArrowRight size={16} /></button></div></div>;
+
+  return (
+    <div className="review-content">
+      <div className="card-heading">
+        <span className="card-icon"><FileCheck2 size={20} /></span>
+        <div><h2>Review &amp; Submit</h2><p>Please review the details below before submitting.</p></div>
+      </div>
+
+      <div className="review-sections">
+        {sections.map(([title, Icon, values], index) => (
+          <div className="review-section" key={title}>
+            <div className="review-section-head">
+              <span><Icon size={17} />{title}<CheckCircle2 size={16} className="verified" /></span>
+              <button type="button" onClick={() => { setStep(index + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Edit</button>
+            </div>
+            <div className="review-values">
+              {values.map(([label, value]) => (
+                <div key={label}><small>{label}</small><strong>{value || 'Not provided'}</strong></div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <label className="confirm-line">
+        <input type="checkbox" checked={data.confirmed} onChange={(e) => update('confirmed', e.target.checked)} />
+        <span>I confirm that the information provided above is accurate and complete.</span>
+      </label>
+      {errors.confirmed && <small className="field-error">{errors.confirmed}</small>}
+
+      <div className="review-security"><Lock size={15} />Your information is protected using secure data handling practices.</div>
+
+      {/* Payment summary */}
+      <div className="review-payment-summary">
+        <div className="review-payment-row">
+          <span>Service</span>
+          <strong>Credvia Care — Financial Assistance</strong>
+        </div>
+        <div className="review-payment-row">
+          <span>Amount Payable</span>
+          <strong className="review-amount">₹{amount.toLocaleString('en-IN')}</strong>
+        </div>
+        <div className="review-payment-note">
+          <Lock size={13} /> One-time payment · 100% secure via Razorpay
+        </div>
+      </div>
+
+      {submitError && <div className="payment-error">{submitError}</div>}
+
+      <div className="form-actions">
+        <button type="button" className="outline-button" onClick={() => { setStep(3); window.scrollTo({ top: 0, behavior: 'smooth' }); }} disabled={submitting}>
+          <ArrowLeft size={16} /> Back: Bank Details
+        </button>
+        <button type="button" className="solid-button" disabled={submitting} onClick={onSubmit}>
+          {submitting ? 'Processing...' : `Pay ₹${amount} & Submit`}<ArrowRight size={16} />
+        </button>
+      </div>
+    </div>
+  );
 }
 
 function Illustration({ type }) {
   const images = { personal: step1Image, work: step2Image, bank: step3Image, review: step4Image };
   return <div className={`illustration illustration-${type}`}><img className="illustration-image" src={images[type]} alt="" /></div>;
-}
-
-function PaymentView({ amount, applicationId, method, setMethod, onPaid }) {
-  const [processing, setProcessing] = useState(false);
-  const pay = () => { setProcessing(true); window.setTimeout(() => { setProcessing(false); onPaid(); }, 900); };
-  return <div className="application-page payment-state"><div className="payment-layout"><div className="payment-copy"><span className="application-kicker">CREDVIA CARE / SECURE CHECKOUT</span><h1>Complete Your Payment</h1><p>Your application has been submitted successfully. Complete the payment to proceed with the next stage.</p><div className="payment-summary"><div><span>Application Status</span><strong>Application Submitted</strong></div><div><span>Application ID</span><strong>{applicationId}</strong></div><div><span>Payable Amount</span><strong>₹{amount.toLocaleString('en-IN')}</strong></div></div></div><div className="payment-card"><div className="payment-card-title"><span className="card-icon"><CreditCard size={20} /></span><h2>Secure Payment</h2></div><div className="pay-amount"><span>Credvia Care onboarding</span><strong>₹{amount.toLocaleString('en-IN')}</strong></div><div className="payment-methods">{['UPI', 'Credit / Debit Card', 'Net Banking', 'Wallets'].map((item) => <button type="button" className={method === item ? 'selected' : ''} onClick={() => setMethod(item)} key={item}>{item}</button>)}</div><button type="button" className="solid-button pay-button" onClick={pay} disabled={processing}>{processing ? 'Processing...' : 'Pay Securely'}<ArrowRight size={17} /></button><div className="secure-label"><Lock size={15} />100% Secure Payment</div><div className="payment-icons"><Smartphone size={18} /><CreditCard size={18} /><Wallet size={18} /><Banknote size={18} /></div></div></div></div>;
-}
-
-function SuccessView({ amount, applicationId, paymentId, onStatus }) {
-  return <div className="application-page success-state"><div className="success-card"><div className="success-mark"><Check size={35} /></div><span className="application-kicker">CREDVIA CARE / CONFIRMED</span><h1>Payment Successful</h1><p>Your payment has been received successfully.</p><div className="success-details"><div><span>Application ID</span><strong>{applicationId}</strong></div><div><span>Payment ID</span><strong>{paymentId}</strong></div><div><span>Payment Status</span><strong>Paid</strong></div><div><span>Amount</span><strong>₹{amount.toLocaleString('en-IN')}</strong></div><div><span>Transaction Date</span><strong>{new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div></div><div className="success-actions"><button type="button" className="solid-button" onClick={onStatus}>View Application Status<ChevronRight size={17} /></button><button type="button" className="outline-button" onClick={onStatus}>Back to Dashboard</button></div></div></div>;
 }
 
 export default ApplicationPage;

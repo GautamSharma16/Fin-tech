@@ -308,7 +308,7 @@ const Contact = () => {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">
-                    Toll-Free &amp; Direct Lines
+                    Customer Support Lines
                   </span>
                   <a className="font-title-md text-title-md font-bold text-primary hover:underline" href="tel:+918340421940">
                     +91 83404 21940
@@ -334,13 +334,13 @@ const Contact = () => {
                   <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">
                     Electronic Inquiries
                   </span>
-                  <a className="font-label-lg text-label-lg font-bold text-primary hover:underline" href="mailto:support@credviafinancial.com">
-                    support@credviafinancial.com
+                  <a className="font-label-lg text-label-lg font-bold text-primary hover:underline" href="mailto:khantanzeel321@gmail.com">
+                    khantanzeel321@gmail.com
                   </a>
                   <span className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
                     Corporate:{' '}
-                    <a className="text-primary hover:underline" href="mailto:info@credviafinancial.com">
-                      info@credviafinancial.com
+                    <a className="text-primary hover:underline" href="mailto:khantanzeel321@gmail.com">
+                      khantanzeel321@gmail.com
                     </a>
                   </span>
                   <span className="font-label-sm text-label-sm text-on-surface-variant mt-1">
@@ -463,12 +463,12 @@ const Contact = () => {
                 <span className="font-label-sm text-label-sm text-on-surface-variant">Principal Nodal Officer:</span>
                 <span className="font-label-lg text-label-lg font-bold text-primary">Nodal Officer Desk</span>
                 <span className="font-body-sm text-body-sm text-on-surface-variant">
-                  nodal.officer@credviafinancial.com
+                  khantanzeel321@gmail.com
                 </span>
               </div>
               <a
                 className="inline-flex items-center justify-center gap-2 px-space-md py-space-xs rounded-full bg-primary text-on-primary font-label-md text-label-md font-bold hover:bg-primary-container transition-all text-center shrink-0"
-                href="mailto:nodal.officer@credviafinancial.com?subject=Grievance%20Escalation"
+                href="mailto:khantanzeel321@gmail.com?subject=Grievance%20Escalation"
               >
                 <span>Escalate Grievance</span>
                 <span className="material-symbols-outlined text-base">outgoing_mail</span>

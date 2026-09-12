@@ -1,12 +1,12 @@
 {
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/api/create-order",     "destination": "/api/create-order.js" },
+    { "source": "/api/verify-payment",   "destination": "/api/verify-payment.js" },
+    { "source": "/api/submit-to-sheets", "destination": "/api/submit-to-sheets.js" },
+    { "source": "/api/razorpay-webhook", "destination": "/api/razorpay-webhook.js" },
+    { "source": "/(.*)",                 "destination": "/index.html" }
   ]
 }

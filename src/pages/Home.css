@@ -239,3 +239,235 @@
 .loans-carousel::-webkit-scrollbar {
   display: none;
 }
+
+.lead-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(9, 30, 66, .54);
+  backdrop-filter: blur(8px);
+}
+
+.lead-modal {
+  position: relative;
+  width: min(100%, 460px);
+  max-height: min(720px, calc(100vh - 2rem));
+  overflow-y: auto;
+  padding: 1.5rem;
+  border: 1px solid #dbe7f4;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(9, 30, 66, .26);
+}
+
+/* Wide 2-panel layout matching contact section */
+.lead-modal-wide {
+  width: min(100%, 860px);
+  max-height: min(600px, calc(100vh - 2rem));
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  padding: 0;
+  overflow: hidden;
+}
+
+.lead-modal-wide .lead-modal-close {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  z-index: 10;
+  background: rgba(255,255,255,.85);
+}
+
+.lead-modal-img {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e8f0ff 0%, #f0f9ef 100%);
+}
+
+.lead-modal-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.lead-modal-body {
+  padding: 2rem 1.75rem;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #f8fbff 0%, #f2faf0 100%);
+}
+
+.lead-modal-close {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: .7rem;
+  color: var(--color-primary);
+  background: #eef5ff;
+}
+
+.lead-kicker {
+  color: var(--color-primary);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.lead-modal h2 {
+  margin: .55rem 2.4rem .35rem 0;
+  font-size: 1.55rem;
+}
+
+.lead-copy {
+  color: var(--color-neutral);
+  font-size: .9rem;
+}
+
+.lead-form {
+  display: grid;
+  gap: .9rem;
+  margin-top: 1.2rem;
+}
+
+.lead-form label {
+  display: grid;
+  gap: .35rem;
+}
+
+.lead-form label span {
+  color: #334b68;
+  font-size: .75rem;
+  font-weight: 800;
+}
+
+.lead-form input {
+  width: 100%;
+  min-height: 46px;
+  padding: .72rem .85rem;
+  border: 1px solid #d8e3ef;
+  border-radius: .7rem;
+  color: var(--color-tertiary);
+  background: #fbfdff;
+  outline: 0;
+}
+
+.lead-form input:focus {
+  border-color: #6e9ed0;
+  box-shadow: 0 0 0 3px rgba(55, 115, 181, .12);
+}
+
+.lead-form input[readonly] {
+  color: var(--color-primary);
+  font-weight: 800;
+  background: #f2f8ff;
+}
+
+.lead-form small,
+.lead-error {
+  color: #bd3f4b;
+  font-size: .72rem;
+  font-weight: 700;
+}
+
+.lead-error {
+  padding: .75rem .9rem;
+  border: 1px solid #f0c7cc;
+  border-radius: .75rem;
+  background: #fff5f6;
+}
+
+.lead-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-height: 46px;
+  padding: .75rem 1.2rem;
+  border-radius: 2rem;
+  color: #141f00;
+  background: #bef53c;
+  font-size: .82rem;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(190, 245, 60, .4);
+  transition: .2s;
+}
+
+.lead-submit:hover { background: #aee030; transform: translateY(-1px); }
+
+.lead-submit:disabled {
+  opacity: .65;
+  cursor: wait;
+}
+
+.lead-success {
+  display: grid;
+  justify-items: center;
+  gap: .85rem;
+  padding: 1.5rem .25rem .5rem;
+  text-align: center;
+}
+
+.lead-success .material-symbols-outlined {
+  color: #39a36b;
+  font-size: 3.25rem;
+}
+
+.lead-success h2 {
+  margin: 0;
+}
+
+.lead-success p {
+  color: var(--color-neutral);
+}
+
+@media (max-width: 700px) {
+  .lead-modal-backdrop {
+    align-items: end;
+    padding: .75rem;
+  }
+
+  .lead-modal {
+    max-height: calc(100vh - 1.5rem);
+    padding: 1.15rem;
+    border-radius: .9rem;
+  }
+
+  .lead-modal-wide {
+    grid-template-columns: 1fr;
+    max-height: calc(100vh - 1.5rem);
+  }
+
+  .lead-modal-img {
+    height: 200px;
+  }
+
+  .lead-modal-body {
+    padding: 1.25rem;
+  }
+
+  .lead-modal h2 {
+    font-size: 1.35rem;
+  }
+
+  section.py-space-3xl {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+  }
+
+  section.pt-0.pb-space-4xl {
+    padding-bottom: 2.25rem;
+  }
+
+  .loans-carousel {
+    gap: 1rem;
+  }
+}

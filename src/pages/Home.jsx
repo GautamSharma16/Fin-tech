@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import hero1 from '../assets/Hero1 (1).webp';
@@ -6,6 +6,14 @@ import hero2 from '../assets/Hero1 (2).webp';
 import hero3 from '../assets/Hero1 (3).webp';
 import hero4 from '../assets/Hero1 (4).webp';
 import bannerDesktop from '../assets/banner_desktop.png';
+import callbackImg from '../assets/callback.webp';
+import imgRajesh  from '../assets/Rajesh Kumar.jpeg';
+import imgPooja   from '../assets/Pooja Sharma.jpeg';
+import imgVikram  from '../assets/Vikram Mehta.jpeg';
+import imgAnita   from '../assets/Anita Patel.jpeg';
+import imgSuresh  from '../assets/Suresh Khanna.jpeg';
+import imgNeha    from '../assets/Neha Joshi.jpeg';
+import imgDeeapk  from '../assets/Deepak Verma.jpeg';
 import mobileBanner1 from '../assets/mobile_banner (1).webp';
 import mobileBanner2 from '../assets/mobile_banner (2).webp';
 import mobileBanner4 from '../assets/mobile_banner (4).webp';
@@ -28,6 +36,7 @@ import logoHeroFincorp from '../assets/hero-fincorp.png';
 import logoChola from '../assets/Chola Logo Unit - Black.jpg';
 import logoAxisFinance from '../assets/Axis Finance bank.webp';
 import logoAxisBank from '../assets/axis bank.png';
+import './Home.css';
 
 const bankPartners = [
   { code: 'BIRLA',   name: 'Aditya Birla',         logo: logoBirla,   dark: false },
@@ -92,8 +101,12 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [activeCard, setActiveCard] = useState(0);
+  const [leadModalPlan, setLeadModalPlan] = useState('');
   const carouselRef = React.useRef(null);
-  const TOTAL_LOAN_CARDS = 8;
+  const TOTAL_LOAN_CARDS = 9;
+
+  const openLeadModal = (plan) => setLeadModalPlan(plan);
+  const closeLeadModal = () => setLeadModalPlan('');
 
   const renderPartnerLogo = (partner) => (
     <div
@@ -518,15 +531,16 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="relative z-10 pt-space-md">
-                  <Link
-                    to="/subscribe"
+                  <button
+                    type="button"
+                    onClick={() => openLeadModal('Personal Loan')}
                     className="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn"
                   >
-                    <span>Apply Now</span>
+                    <span>Get Detail</span>
                     <span className="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">
                       arrow_forward
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
 
@@ -564,15 +578,16 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="relative z-10 pt-space-md">
-                  <Link
-                    to="/subscribe"
+                  <button
+                    type="button"
+                    onClick={() => openLeadModal('Business Loan')}
                     className="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn"
                   >
-                    <span>Apply Now</span>
+                    <span>Get Detail</span>
                     <span className="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">
                       arrow_forward
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
 
@@ -610,15 +625,16 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="relative z-10 pt-space-md">
-                  <Link
-                    to="/subscribe"
+                  <button
+                    type="button"
+                    onClick={() => openLeadModal('Auto Loan')}
                     className="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn"
                   >
-                    <span>Apply Now</span>
+                    <span>Get Detail</span>
                     <span className="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">
                       arrow_forward
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
 
@@ -656,15 +672,16 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="relative z-10 pt-space-md">
-                  <Link
-                    to="/subscribe"
+                  <button
+                    type="button"
+                    onClick={() => openLeadModal('Home Loan')}
                     className="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn"
                   >
-                    <span>Apply Now</span>
+                    <span>Get Detail</span>
                     <span className="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">
                       arrow_forward
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
 
@@ -702,15 +719,16 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="relative z-10 pt-space-md">
-                  <Link
-                    to="/subscribe"
+                  <button
+                    type="button"
+                    onClick={() => openLeadModal('Loan Against Property')}
                     className="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn"
                   >
-                    <span>Apply Now</span>
+                    <span>Get Detail</span>
                     <span className="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">
                       arrow_forward
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
 
@@ -748,15 +766,16 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="relative z-10 pt-space-md">
-                  <Link
-                    to="/subscribe"
+                  <button
+                    type="button"
+                    onClick={() => openLeadModal('Used Car Loan')}
                     className="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn"
                   >
-                    <span>Apply Now</span>
+                    <span>Get Detail</span>
                     <span className="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">
                       arrow_forward
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
 
@@ -794,15 +813,16 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="relative z-10 pt-space-md">
-                  <Link
-                    to="/subscribe"
+                  <button
+                    type="button"
+                    onClick={() => openLeadModal('Two Wheeler Loan')}
                     className="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn"
                   >
-                    <span>Apply Now</span>
+                    <span>Get Detail</span>
                     <span className="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">
                       arrow_forward
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
 
@@ -840,15 +860,16 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="relative z-10 pt-space-md">
-                  <Link
-                    to="/subscribe"
+                  <button
+                    type="button"
+                    onClick={() => openLeadModal('Flexi Loan')}
                     className="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn"
                   >
-                    <span>Apply Now</span>
+                    <span>Get Detail</span>
                     <span className="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">
                       arrow_forward
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
 
@@ -886,15 +907,16 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="relative z-10 pt-space-md">
-                  <Link
-                    to="/subscribe"
+                  <button
+                    type="button"
+                    onClick={() => openLeadModal('Loan Against Security')}
                     className="w-full py-space-sm rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-2xs hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 group/btn"
                   >
-                    <span>Apply Now</span>
+                    <span>Get Detail</span>
                     <span className="material-symbols-outlined text-sm transition-transform duration-200 group-hover/btn:translate-x-1.5">
                       arrow_forward
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -1183,10 +1205,10 @@ const Home = () => {
                   <div>
                     <p className="font-label-md text-label-md font-bold text-on-surface">Email</p>
                     <a
-                      href="mailto:support@credviafinancial.com"
+                      href="mailto:khantanzeel321@gmail.com"
                       className="font-body-md text-body-md text-primary hover:underline underline-offset-2 transition-colors"
                     >
-                      support@credviafinancial.com
+                      khantanzeel321@gmail.com
                     </a>
                   </div>
                 </div>
@@ -1300,30 +1322,30 @@ const Home = () => {
 
             <div className="animate-infinite-marquee-slow flex items-stretch gap-space-lg">
               {[
-                { initials: 'RK', bg: 'bg-primary-fixed', text: 'text-primary', name: 'Rajesh Kumar', role: 'Senior Tech Lead, Lucknow', quote: '"The ₹699 Credvia Care service completely cleared my doubts about credit score improvement. Within 3 weeks, my home loan process was smooth without a hitch."' },
-                { initials: 'PS', bg: 'bg-secondary-fixed', text: 'text-on-secondary-fixed', name: 'Pooja Sharma', role: 'Retail Owner, Kanpur', quote: '"Running a business requires urgent liquidity. Credvia Financial Services assisted our MSME expansion loan in under 24 hours with zero unnecessary visits."' },
-                { initials: 'VM', bg: 'bg-surface-container-high', text: 'text-primary', name: 'Vikram Mehta', role: 'Architect, Varanasi', quote: '"Complete transparency. No surprise processing deductions at disbursal, and their customer care team is polite, prompt, and knowledgeable."' },
-                { initials: 'AP', bg: 'bg-primary-fixed', text: 'text-primary', name: 'Anita Patel', role: 'School Principal, Agra', quote: '"I was nervous about my first loan application. Credvia\'s advisor walked me through every step and I got approved within 2 days — truly hassle-free."' },
-                { initials: 'SK', bg: 'bg-secondary-fixed', text: 'text-on-secondary-fixed', name: 'Suresh Khanna', role: 'Factory Owner, Meerut', quote: '"Got a ₹40 Lakh business loan with minimal documentation. The team was proactive, the rate was competitive, and disbursal happened faster than expected."' },
-                { initials: 'NJ', bg: 'bg-surface-container-high', text: 'text-primary', name: 'Neha Joshi', role: 'Freelance Designer, Pune', quote: '"As a freelancer, banks always turned me down. Credvia understood my income pattern and got me a personal loan without ITR hassle. Highly recommend!"' },
-                { initials: 'DV', bg: 'bg-primary-fixed', text: 'text-primary', name: 'Deepak Verma', role: 'Government Employee, Bhopal', quote: '"The two-wheeler loan process was incredibly smooth. Approved on the same day, bike financed 100% on-road price. No hidden charges at all."' },
+                { initials: 'RK', img: imgRajesh,  bg: 'bg-primary-fixed', text: 'text-primary', name: 'Rajesh Kumar', role: 'Senior Tech Lead, Lucknow', quote: '"The ₹699 Credvia Care service completely cleared my doubts about credit score improvement. Within 3 weeks, my home loan process was smooth without a hitch."' },
+                { initials: 'PS', img: imgPooja,   bg: 'bg-secondary-fixed', text: 'text-on-secondary-fixed', name: 'Pooja Sharma', role: 'Retail Owner, Kanpur', quote: '"Running a business requires urgent liquidity. Credvia Financial Services assisted our MSME expansion loan in under 24 hours with zero unnecessary visits."' },
+                { initials: 'VM', img: imgVikram,  bg: 'bg-surface-container-high', text: 'text-primary', name: 'Vikram Mehta', role: 'Architect, Varanasi', quote: '"Complete transparency. No surprise processing deductions at disbursal, and their customer care team is polite, prompt, and knowledgeable."' },
+                { initials: 'AP', img: imgAnita,   bg: 'bg-primary-fixed', text: 'text-primary', name: 'Anita Patel', role: 'School Principal, Agra', quote: '"I was nervous about my first loan application. Credvia\'s advisor walked me through every step and I got approved within 2 days — truly hassle-free."' },
+                { initials: 'SK', img: imgSuresh,  bg: 'bg-secondary-fixed', text: 'text-on-secondary-fixed', name: 'Suresh Khanna', role: 'Factory Owner, Meerut', quote: '"Got a ₹40 Lakh business loan with minimal documentation. The team was proactive, the rate was competitive, and disbursal happened faster than expected."' },
+                { initials: 'NJ', img: imgNeha,    bg: 'bg-surface-container-high', text: 'text-primary', name: 'Neha Joshi', role: 'Freelance Designer, Pune', quote: '"As a freelancer, banks always turned me down. Credvia understood my income pattern and got me a personal loan without ITR hassle. Highly recommend!"' },
+                { initials: 'DV', img: imgDeeapk,  bg: 'bg-primary-fixed', text: 'text-primary', name: 'Deepak Verma', role: 'Government Employee, Bhopal', quote: '"The two-wheeler loan process was incredibly smooth. Approved on the same day, bike financed 100% on-road price. No hidden charges at all."' },
               ].concat([
-                { initials: 'RK', bg: 'bg-primary-fixed', text: 'text-primary', name: 'Rajesh Kumar', role: 'Senior Tech Lead, Lucknow', quote: '"The ₹699 Credvia Care service completely cleared my doubts about credit score improvement. Within 3 weeks, my home loan process was smooth without a hitch."' },
-                { initials: 'PS', bg: 'bg-secondary-fixed', text: 'text-on-secondary-fixed', name: 'Pooja Sharma', role: 'Retail Owner, Kanpur', quote: '"Running a business requires urgent liquidity. Credvia Financial Services assisted our MSME expansion loan in under 24 hours with zero unnecessary visits."' },
-                { initials: 'VM', bg: 'bg-surface-container-high', text: 'text-primary', name: 'Vikram Mehta', role: 'Architect, Varanasi', quote: '"Complete transparency. No surprise processing deductions at disbursal, and their customer care team is polite, prompt, and knowledgeable."' },
-                { initials: 'AP', bg: 'bg-primary-fixed', text: 'text-primary', name: 'Anita Patel', role: 'School Principal, Agra', quote: '"I was nervous about my first loan application. Credvia\'s advisor walked me through every step and I got approved within 2 days — truly hassle-free."' },
-                { initials: 'SK', bg: 'bg-secondary-fixed', text: 'text-on-secondary-fixed', name: 'Suresh Khanna', role: 'Factory Owner, Meerut', quote: '"Got a ₹40 Lakh business loan with minimal documentation. The team was proactive, the rate was competitive, and disbursal happened faster than expected."' },
-                { initials: 'NJ', bg: 'bg-surface-container-high', text: 'text-primary', name: 'Neha Joshi', role: 'Freelance Designer, Pune', quote: '"As a freelancer, banks always turned me down. Credvia understood my income pattern and got me a personal loan without ITR hassle. Highly recommend!"' },
-                { initials: 'DV', bg: 'bg-primary-fixed', text: 'text-primary', name: 'Deepak Verma', role: 'Government Employee, Bhopal', quote: '"The two-wheeler loan process was incredibly smooth. Approved on the same day, bike financed 100% on-road price. No hidden charges at all."' },
+                { initials: 'RK', img: imgRajesh,  bg: 'bg-primary-fixed', text: 'text-primary', name: 'Rajesh Kumar', role: 'Senior Tech Lead, Lucknow', quote: '"The ₹699 Credvia Care service completely cleared my doubts about credit score improvement. Within 3 weeks, my home loan process was smooth without a hitch."' },
+                { initials: 'PS', img: imgPooja,   bg: 'bg-secondary-fixed', text: 'text-on-secondary-fixed', name: 'Pooja Sharma', role: 'Retail Owner, Kanpur', quote: '"Running a business requires urgent liquidity. Credvia Financial Services assisted our MSME expansion loan in under 24 hours with zero unnecessary visits."' },
+                { initials: 'VM', img: imgVikram,  bg: 'bg-surface-container-high', text: 'text-primary', name: 'Vikram Mehta', role: 'Architect, Varanasi', quote: '"Complete transparency. No surprise processing deductions at disbursal, and their customer care team is polite, prompt, and knowledgeable."' },
+                { initials: 'AP', img: imgAnita,   bg: 'bg-primary-fixed', text: 'text-primary', name: 'Anita Patel', role: 'School Principal, Agra', quote: '"I was nervous about my first loan application. Credvia\'s advisor walked me through every step and I got approved within 2 days — truly hassle-free."' },
+                { initials: 'SK', img: imgSuresh,  bg: 'bg-secondary-fixed', text: 'text-on-secondary-fixed', name: 'Suresh Khanna', role: 'Factory Owner, Meerut', quote: '"Got a ₹40 Lakh business loan with minimal documentation. The team was proactive, the rate was competitive, and disbursal happened faster than expected."' },
+                { initials: 'NJ', img: imgNeha,    bg: 'bg-surface-container-high', text: 'text-primary', name: 'Neha Joshi', role: 'Freelance Designer, Pune', quote: '"As a freelancer, banks always turned me down. Credvia understood my income pattern and got me a personal loan without ITR hassle. Highly recommend!"' },
+                { initials: 'DV', img: imgDeeapk,  bg: 'bg-primary-fixed', text: 'text-primary', name: 'Deepak Verma', role: 'Government Employee, Bhopal', quote: '"The two-wheeler loan process was incredibly smooth. Approved on the same day, bike financed 100% on-road price. No hidden charges at all."' },
               ]).map((t, idx) => (
                 <div
                   key={idx}
                   className="bg-surface-container-lowest p-space-xl rounded-2xl shadow-sm hover:shadow-xl border border-transparent hover:border-surface-variant transition-all duration-300 flex flex-col justify-between group cursor-default shrink-0 w-80"
                 >
                   <div>
-                    <div className="flex items-center text-secondary-fixed-variant mb-space-sm">
+                    <div className="flex items-center mb-space-sm">
                       {[...Array(5)].map((_, s) => (
-                        <span key={s} className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                        <span key={s} className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1", color: '#f59e0b' }}>star</span>
                       ))}
                     </div>
                     <p className="font-body-md text-body-md text-on-surface italic mb-space-lg leading-relaxed">
@@ -1331,8 +1353,8 @@ const Home = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-space-sm pt-space-sm border-t border-surface-container">
-                    <div className={`w-10 h-10 rounded-full ${t.bg} flex items-center justify-center ${t.text} font-bold text-sm group-hover:rotate-12 transition-transform duration-300`}>
-                      {t.initials}
+                    <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 group-hover:rotate-12 transition-transform duration-300">
+                      <img src={t.img} alt={t.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex flex-col">
                       <span className="font-label-md text-label-md font-bold text-on-surface">{t.name}</span>
@@ -1372,8 +1394,129 @@ const Home = () => {
           </div>
         </div>
       </section>
+      {leadModalPlan && <LeadDetailModal selectedPlan={leadModalPlan} onClose={closeLeadModal} />}
     </div>
   );
 };
+
+function LeadDetailModal({ selectedPlan, onClose }) {
+  const [form, setForm] = useState({ fullName: '', mobile: '', email: '' });
+  const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
+  const update = (event) => {
+    const { name, value } = event.target;
+    setForm((current) => ({ ...current, [name]: value }));
+    setErrors((current) => ({ ...current, [name]: '' }));
+  };
+
+  const validate = () => {
+    const nextErrors = {};
+    if (!form.fullName.trim()) nextErrors.fullName = 'Full name is required.';
+    if (!/^[6-9]\d{9}$/.test(form.mobile.trim())) nextErrors.mobile = 'Enter a valid 10-digit mobile number.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) nextErrors.email = 'Enter a valid email address.';
+    return nextErrors;
+  };
+
+  const submit = async (event) => {
+    event.preventDefault();
+    const nextErrors = validate();
+    if (Object.keys(nextErrors).length) {
+      setErrors(nextErrors);
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const response = await fetch('/api/submit-record', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'lead',
+          submissionId: `LEAD-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
+          status: 'lead_submitted',
+          payload: {
+            fullName: form.fullName.trim(),
+            mobile: form.mobile.trim(),
+            email: form.email.trim(),
+            selectedPlan,
+            source: 'loan-card-modal',
+          },
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || 'Unable to submit your enquiry right now.');
+      }
+      setSuccess(true);
+    } catch (error) {
+      setSubmitError(error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="lead-modal-backdrop" role="presentation" onMouseDown={onClose}>
+      <div className="lead-modal lead-modal-wide" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title" onMouseDown={(event) => event.stopPropagation()}>
+        <button type="button" className="lead-modal-close" onClick={onClose} aria-label="Close enquiry form">
+          <span className="material-symbols-outlined">close</span>
+        </button>
+
+        {/* Left — callback image */}
+        <div className="lead-modal-img">
+          <img src={callbackImg} alt="Callback" />
+        </div>
+
+        {/* Right — form */}
+        <div className="lead-modal-body">
+          {success ? (
+            <div className="lead-success">
+              <span className="material-symbols-outlined">check_circle</span>
+              <h2 id="lead-modal-title">Thank you!</h2>
+              <p>Our team will call you back shortly regarding your <strong>{selectedPlan}</strong> enquiry.</p>
+              <button type="button" className="lead-submit" onClick={onClose}>Done</button>
+            </div>
+          ) : (
+            <>
+              <span className="lead-kicker">Get Details</span>
+              <h2 id="lead-modal-title">Request a Callback</h2>
+              <p className="lead-copy">Share your details and our advisor will call you back to help with your loan query.</p>
+              <form className="lead-form" onSubmit={submit}>
+                <label>
+                  <span>Full Name *</span>
+                  <input name="fullName" type="text" value={form.fullName} onChange={update} placeholder="Enter your full name" />
+                  {errors.fullName && <small>{errors.fullName}</small>}
+                </label>
+                <label>
+                  <span>Mobile Number *</span>
+                  <input name="mobile" type="tel" inputMode="numeric" maxLength="10" value={form.mobile} onChange={update} placeholder="98765 43210" />
+                  {errors.mobile && <small>{errors.mobile}</small>}
+                </label>
+                <label>
+                  <span>Email *</span>
+                  <input name="email" type="email" value={form.email} onChange={update} placeholder="you@example.com" />
+                  {errors.email && <small>{errors.email}</small>}
+                </label>
+                <label>
+                  <span>Selected Plan</span>
+                  <input type="text" value={selectedPlan} readOnly />
+                </label>
+                {submitError && <div className="lead-error">{submitError}</div>}
+                <button type="submit" className="lead-submit" disabled={submitting}>
+                  {submitting ? 'Submitting...' : 'Request Callback'}
+                  <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>arrow_forward</span>
+                </button>
+              </form>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default Home;
