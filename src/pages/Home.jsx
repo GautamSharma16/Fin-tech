@@ -1431,26 +1431,19 @@ function LeadDetailModal({ selectedPlan, onClose }) {
     setSubmitting(true);
     setSubmitError('');
     try {
-      const response = await fetch('/api/submit-record', {
+      // Save lead to Google Sheet
+      await fetch('/api/submit-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          type: 'lead',
-          submissionId: `LEAD-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
-          status: 'lead_submitted',
-          payload: {
-            fullName: form.fullName.trim(),
-            mobile: form.mobile.trim(),
-            email: form.email.trim(),
-            selectedPlan,
-            source: 'loan-card-modal',
-          },
+          fullName:     form.fullName.trim(),
+          mobile:       form.mobile.trim(),
+          email:        form.email.trim(),
+          selectedPlan,
+          source:       'loan-card-modal',
         }),
       });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || result.success === false) {
-        throw new Error(result.message || 'Unable to submit your enquiry right now.');
-      }
+      // Sheet failure is non-blocking — always show success to user
       setSuccess(true);
     } catch (error) {
       setSubmitError(error.message);
