@@ -201,7 +201,7 @@ const Home = () => {
   return (
     <div className="flex flex-col w-full bg-surface">
       {/* SECTION 1: HERO SLIDER CAROUSEL (TATA CAPITAL STYLE) */}
-      <section className="relative overflow-hidden bg-surface pt-1 pb-0 md:py-6">
+      <section className="relative overflow-hidden bg-surface pt-3 pb-0 md:py-10">
         <div className="max-w-container-max mx-auto px-gutter-mobile md:px-gutter-desktop">
           <div
             className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl shadow-xl group bg-surface-container-low"
@@ -1150,7 +1150,7 @@ const Home = () => {
       </section>
 
       {/* SECTION: REACH US */}
-      <section className="py-space-3xl bg-surface overflow-hidden">
+      <section className="pt-0 pb-space-4xl bg-surface overflow-hidden">
         <div className="max-w-container-max mx-auto px-gutter-desktop">
           <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary-fixed/30 via-surface to-secondary-fixed/20 border border-surface-container/60 shadow-lg flex flex-col md:flex-row items-stretch min-h-[320px]">
 
@@ -1250,8 +1250,8 @@ const Home = () => {
               <span
                 className="stat-counter font-metric-display text-metric-display font-extrabold text-primary mb-space-2xs group-hover:scale-110 transition-transform duration-300"
                 data-prefix=""
-                data-suffix="K+"
-                data-target="10"
+                data-suffix=" Lac+"
+                data-target="2"
               >
                 2 Lac+
               </span>
