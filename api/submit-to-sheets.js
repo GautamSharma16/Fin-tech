@@ -17,7 +17,8 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(sheetUrl, {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         timestamp:         new Date().toISOString(),
         applicationId:     payload.applicationId     || '',

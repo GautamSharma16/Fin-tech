@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { notifyUser, postToSheet } from '../utils/formPipeline';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const Contact = () => {
   });
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
   const handleInputChange = (e) => {
@@ -21,9 +23,39 @@ const Contact = () => {
     }));
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setFormSubmitted(true);
+    if (formSubmitting) return;
+
+    setFormSubmitting(true);
+    try {
+      await postToSheet(import.meta.env.VITE_LEAD_SHEET_URL, {
+        timestamp: new Date().toISOString(),
+        fullName: formData.fullName.trim(),
+        mobile: formData.phoneNumber.trim(),
+        email: formData.emailAddress.trim(),
+        selectedPlan: formData.serviceCategory,
+        message: formData.message.trim(),
+        source: 'contact-us',
+        sendConfirmationEmail: true,
+        emailTo: formData.emailAddress.trim(),
+        emailSubject: 'We received your Credvia enquiry',
+      });
+      notifyUser({
+        name: formData.fullName.trim(),
+        email: formData.emailAddress.trim(),
+        type: 'contact',
+        extra: {
+          subject: 'We received your Credvia enquiry',
+          summary: formData.message.trim() || `Service: ${formData.serviceCategory}`,
+        },
+      });
+      setFormSubmitted(true);
+    } catch {
+      setFormSubmitted(true);
+    } finally {
+      setFormSubmitting(false);
+    }
   };
 
   const toggleFaq = (index) => {
@@ -41,7 +73,7 @@ const Contact = () => {
     },
     {
       q: 'Is my financial and credit data protected with Credvia?',
-      a: 'Yes, absolutely. Credvia Financial Services utilizes bank-grade 256-bit AES encryption across all customer transmission endpoints. As an RBI registered partner, we never share, monetize, or disclose customer credit reports to unauthorized third parties without explicit consent.',
+      a: 'Yes, absolutely. Credvia Financial Services utilizes bank-grade 256-bit AES encryption across all customer transmission endpoints. As an authorised channel partner, we never share, monetize, or disclose customer credit reports to unauthorized third parties without explicit consent.',
     },
   ];
 
@@ -78,7 +110,7 @@ const Contact = () => {
               <span className="text-outline-variant hidden sm:inline">•</span>
               <div className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-secondary text-base">verified</span>
-                <span>RBI Registered Partner</span>
+                <span>Authorised Channel Partner</span>
               </div>
               <span className="text-outline-variant hidden sm:inline">•</span>
               <div className="flex items-center gap-1.5">
@@ -266,10 +298,11 @@ const Contact = () => {
               {/* Submit Button & SLA Notice */}
               <div className="pt-space-xs flex flex-col sm:flex-row items-center justify-between gap-space-md">
                 <button
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-space-xl py-space-sm rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-lg text-label-lg font-extrabold hover:bg-secondary-fixed-dim active:scale-[0.99] transition-all shadow-[0_4px_16px_rgba(190,245,60,0.4)] cursor-pointer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-space-xl py-space-sm rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-lg text-label-lg font-extrabold hover:bg-secondary-fixed-dim active:scale-[0.99] transition-all shadow-[0_4px_16px_rgba(190,245,60,0.4)] cursor-pointer disabled:opacity-60"
                   type="submit"
+                  disabled={formSubmitting || formSubmitted}
                 >
-                  <span>Send Message / Request Callback</span>
+                  <span>{formSubmitting ? 'Sending...' : formSubmitted ? 'Message Sent' : 'Send Message / Request Callback'}</span>
                   <span className="material-symbols-outlined text-lg">arrow_forward</span>
                 </button>
                 <div className="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm text-center sm:text-left">
@@ -429,50 +462,6 @@ const Contact = () => {
                   </button>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Escalation Matrix & RBI Grievance Redressal Banner */}
-      <div className="bg-surface-container-low py-space-2xl w-full">
-        <div className="max-w-container-max mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop">
-          <div className="bg-surface-container-lowest rounded-2xl p-space-lg lg:p-space-xl shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg">
-            <div className="flex items-start gap-space-md max-w-2xl">
-              <div className="w-14 h-14 rounded-2xl bg-surface-container-high text-primary flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-3xl">policy</span>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold uppercase">
-                    RBI Compliance Matrix
-                  </span>
-                  <span className="text-secondary font-label-sm text-label-sm font-semibold">Tier-1 Resolution</span>
-                </div>
-                <h3 className="font-headline-sm text-headline-sm font-bold text-primary mt-1">
-                  Grievance Redressal &amp; Principal Nodal Officer
-                </h3>
-                <p className="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
-                  If your existing query remains unresolved after 48 hours through standard support channels, you may escalate directly to our Principal Nodal Officer under the RBI Scheme.
-                </p>
-              </div>
-            </div>
-            {/* Escalation Details Card */}
-            <div className="w-full lg:w-auto shrink-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md p-space-md bg-surface-container-low rounded-xl">
-              <div className="flex flex-col">
-                <span className="font-label-sm text-label-sm text-on-surface-variant">Principal Nodal Officer:</span>
-                <span className="font-label-lg text-label-lg font-bold text-primary">Nodal Officer Desk</span>
-                <span className="font-body-sm text-body-sm text-on-surface-variant">
-                  khantanzeel321@gmail.com
-                </span>
-              </div>
-              <a
-                className="inline-flex items-center justify-center gap-2 px-space-md py-space-xs rounded-full bg-primary text-on-primary font-label-md text-label-md font-bold hover:bg-primary-container transition-all text-center shrink-0"
-                href="mailto:khantanzeel321@gmail.com?subject=Grievance%20Escalation"
-              >
-                <span>Escalate Grievance</span>
-                <span className="material-symbols-outlined text-base">outgoing_mail</span>
-              </a>
             </div>
           </div>
         </div>

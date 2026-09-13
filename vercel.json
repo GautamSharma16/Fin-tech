@@ -7,6 +7,7 @@
     { "source": "/api/verify-payment",   "destination": "/api/verify-payment.js" },
     { "source": "/api/submit-to-sheets", "destination": "/api/submit-to-sheets.js" },
     { "source": "/api/submit-lead",      "destination": "/api/submit-lead.js" },
+    { "source": "/api/notify-user",      "destination": "/api/notify-user.js" },
     { "source": "/api/razorpay-webhook", "destination": "/api/razorpay-webhook.js" },
     { "source": "/(.*)",                 "destination": "/index.html" }
   ]

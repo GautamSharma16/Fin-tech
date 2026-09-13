@@ -6,6 +6,7 @@ import Contact from './pages/Contact';
 import Subscribe from './pages/Subscribe';
 import About from './pages/About';
 import ThankYou from './pages/ThankYou';
+import { PrivacyPolicy, TermsConditions } from './pages/Legal';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -29,6 +30,8 @@ function App() {
           <Route path="/apply" element={<Subscribe />} />
           <Route path="/subscribe" element={<Subscribe />} />
           <Route path="/thank-you" element={<ThankYou />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsConditions />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

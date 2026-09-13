@@ -11,7 +11,10 @@
 .application-intro p, .payment-copy > p { color: var(--color-neutral); max-width: 620px; font-size: 1.05rem; }
 .application-progress { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2.4rem; }
 .progress-track { display: none; }
-.progress-step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: .45rem; color: #7c8ba1; font-size: .8rem; font-weight: 700; text-align: center; }
+.progress-step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: .45rem; color: #7c8ba1; font-size: .8rem; font-weight: 700; text-align: center; background: none; border: 0; padding: 0; cursor: default; font-family: inherit; }
+.progress-step.complete { cursor: pointer; }
+.progress-step:disabled { cursor: default; opacity: 1; }
+.progress-step.active .progress-node { animation: node-pop .45s cubic-bezier(.16,1,.3,1); }
 .progress-step:not(:last-child)::after { content: ''; position: absolute; z-index: -1; top: 17px; left: calc(50% + 18px); right: calc(-50% + 18px - 1rem); height: 2px; background: #d8e2ef; }
 .progress-step.complete:not(:last-child)::after { background: var(--color-primary); }
 .progress-node { display: grid; place-items: center; width: 36px; height: 36px; border: 2px solid #d8e2ef; border-radius: 50%; background: #f8fbff; color: #7c8ba1; flex: 0 0 auto; }
@@ -54,7 +57,18 @@
 .art-chart i { display: block; width: 8px; border-radius: 4px 4px 0 0; background: #79acd9; }
 .art-chart i:nth-child(1) { height: 16px; }.art-chart i:nth-child(2) { height: 25px; }.art-chart i:nth-child(3) { height: 20px; }.art-chart i:nth-child(4) { height: 36px; background: #3c80c0; }
 .application-card, .payment-card, .success-card { border: 1px solid #e0e9f4; border-radius: 1.25rem; background: #fff; box-shadow: 0 18px 45px rgba(20, 49, 90, .09); }
-.application-card { padding: 2rem; }
+.application-card { padding: 2rem; overflow: hidden; }
+.step-panel { animation: step-in .45s cubic-bezier(.16,1,.3,1); }
+.currency-prefix { color: var(--color-primary); font-weight: 800; font-size: .85rem; }
+.field-hint { display: block; margin-top: .35rem; color: #7a8798; font-size: .68rem; }
+.form-field.is-filled .control { border-color: #9fd0a8; background: #f7fff8; }
+.field-ok { margin-left: auto; color: #36a36b; flex: 0 0 auto; }
+.has-error { animation: field-shake .4s ease; }
+.application-sidebar { animation: step-in .5s cubic-bezier(.16,1,.3,1); }
+@keyframes step-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes field-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes node-pop { from { transform: scale(.82); } to { transform: scale(1); } }
+@keyframes field-shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 50% { transform: translateX(4px); } 75% { transform: translateX(-2px); } }
 .card-heading, .payment-card-title { display: flex; align-items: flex-start; gap: .8rem; padding-bottom: 1.5rem; border-bottom: 1px solid #edf1f6; }
 .card-heading h2, .payment-card-title h2 { margin: .05rem 0 .35rem; font-size: 1.25rem; }
 .card-heading p { color: var(--color-neutral); font-size: .84rem; }
@@ -90,7 +104,8 @@
 .thank-you-reference span { display: block; color: #78899d; font-size: .68rem; font-weight: 800; text-transform: uppercase; }
 .thank-you-reference strong { display: block; margin-top: .2rem; color: var(--color-primary); overflow-wrap: anywhere; }
 @media (max-width: 900px) { .application-layout { grid-template-columns: 290px minmax(0, 1fr); gap: 1rem; }.application-sidebar { height: 620px; padding-inline: 1.25rem; }.illustration { left: 1rem; right: 1rem; }.payment-layout { gap: 1.5rem; } }
-@media (max-width: 700px) { .application-page { padding: 1rem .85rem 2rem; }.application-intro { margin-bottom: 1rem; }.application-progress { gap: .25rem; margin-bottom: 1rem; }.progress-step { display: flex; flex-direction: column; gap: .35rem; text-align: center; font-size: .62rem; }.progress-step:not(:last-child)::after { top: 16px; left: 50%; right: -0.25rem; }.progress-node { width: 34px; height: 34px; }.application-layout { display: block; }.application-sidebar { position: static; height: auto; min-height: 0; margin-bottom: .85rem; padding: 1.15rem; }.panel-copy h2 { font-size: 1.45rem; }.benefit-list { gap: .65rem; margin-top: 1rem; }.illustration { display: none; }.application-card { padding: 1rem; }.card-heading { flex-wrap: wrap; padding-bottom: 1rem; }.mandatory { width: 100%; margin-left: 0; }.fields-grid { grid-template-columns: 1fr; gap: .85rem; padding: 1rem 0; }.form-actions { flex-direction: column-reverse; align-items: stretch; padding-top: 1rem; }.solid-button, .outline-button { width: 100%; }.payment-layout { grid-template-columns: 1fr; margin: 0; }.payment-copy h1, .success-card h1 { font-size: 2rem; }.success-card { padding: 1.5rem 1rem; }.success-details { grid-template-columns: 1fr; }.payment-summary div { display: block; }.payment-summary strong { margin-top: .2rem; }.thank-you-card { grid-template-columns: 1fr; gap: 0; }.thank-you-image { min-height: 220px; }.thank-you-copy { padding: 1.5rem; }.thank-you-copy h1 { font-size: 2.1rem; } }
+@media (max-width: 700px) { .application-page { padding: 1rem .85rem 2rem; }.application-intro { margin-bottom: 1rem; }.application-progress { gap: .25rem; margin-bottom: 1rem; }.progress-step { display: flex; flex-direction: column; gap: .35rem; text-align: center; font-size: .62rem; }.progress-step:not(:last-child)::after { top: 16px; left: 50%; right: -0.25rem; }.progress-node { width: 34px; height: 34px; }.application-layout { display: block; }.application-sidebar { position: static; height: auto; min-height: 0; margin-bottom: .85rem; padding: 1.15rem; }.panel-copy h2 { font-size: 1.45rem; }.benefit-list { gap: .65rem; margin-top: 1rem; }.illustration { display: none; }.application-card { padding: 1rem; }.card-heading { flex-wrap: wrap; padding-bottom: 1rem; }.mandatory { width: 100%; margin-left: 0; }.fields-grid { grid-template-columns: 1fr; gap: .85rem; padding: 1rem 0; }.form-actions { position: sticky; bottom: 0; z-index: 2; flex-direction: column-reverse; align-items: stretch; padding: 1rem 0 .25rem; background: linear-gradient(#fff0, #fff 28%); }.solid-button, .outline-button { width: 100%; min-height: 48px; }.review-values { grid-template-columns: 1fr; }.payment-layout { grid-template-columns: 1fr; margin: 0; }.payment-copy h1, .success-card h1 { font-size: 2rem; }.success-card { padding: 1.5rem 1rem; }.success-details { grid-template-columns: 1fr; }.payment-summary div { display: block; }.payment-summary strong { margin-top: .2rem; }.thank-you-card { grid-template-columns: 1fr; gap: 0; }.thank-you-image { min-height: 220px; }.thank-you-copy { padding: 1.5rem; }.thank-you-copy h1 { font-size: 2.1rem; } }
+@media (prefers-reduced-motion: reduce) { .step-panel, .form-field, .application-sidebar, .progress-step.active .progress-node { animation: none; } }
 
 /* Review step — payment summary box */
 .review-payment-summary { margin: 1.25rem 0 .5rem; padding: 1rem 1.25rem; border: 1px solid #d8e8f7; border-radius: .85rem; background: #f4f9ff; }

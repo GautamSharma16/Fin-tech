@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { notifyUser, postToSheet } from '../utils/formPipeline';
 
 import hero1 from '../assets/Hero1 (1).webp';
 import hero2 from '../assets/Hero1 (2).webp';
@@ -58,6 +59,19 @@ const bankPartners = [
   { code: 'AXIS',    name: 'Axis Bank',             logo: logoAxisBank, dark: false },
 ];
 
+const callbackPlans = [
+  'Personal Loan',
+  'Business Loan',
+  'Home Loan',
+  'Loan Against Property',
+  'Auto Loan',
+  'Used Car Loan',
+  'Two Wheeler Loan',
+  'Flexi Loan',
+  'Loan Against Security',
+  'Credvia Care (Financial Assistance)',
+];
+
 const heroSlides = [
   {
     id: 1,
@@ -65,8 +79,7 @@ const heroSlides = [
     subtitle: 'Quick approvals & minimal documentation designed around your life goals.',
     desktopImg: bannerDesktop,
     mobileImg: mobileBanner2,
-    link: '/subscribe',
-    btnText: 'Apply Now',
+    action: 'subscribe',
   },
   {
     id: 2,
@@ -74,8 +87,8 @@ const heroSlides = [
     subtitle: 'Collateral-free working capital credit up to ₹50 Lakhs.',
     desktopImg: hero2,
     mobileImg: mobileBanner5,
-    link: '#loans-section',
-    btnText: 'Explore Business Loans',
+    action: 'callback',
+    plan: 'Business Loan',
   },
   {
     id: 3,
@@ -83,8 +96,8 @@ const heroSlides = [
     subtitle: 'Professional credit assistance & 1-on-1 expert guidance.',
     desktopImg: hero3,
     mobileImg: mobileBanner1,
-    link: '/subscribe',
-    btnText: 'Get Financial Care',
+    action: 'callback',
+    plan: 'Credvia Care (Financial Assistance)',
   },
   {
     id: 4,
@@ -92,8 +105,8 @@ const heroSlides = [
     subtitle: 'Long-tenure, large-ticket financing at competitive interest rates.',
     desktopImg: hero4,
     mobileImg: mobileBanner4,
-    link: '#loans-section',
-    btnText: 'Know More',
+    action: 'callback',
+    plan: 'Loan Against Property',
   },
 ];
 
@@ -232,20 +245,37 @@ const Home = () => {
                       : 'opacity-0 scale-95 z-0 pointer-events-none'
                   }`}
                 >
-                  <Link to={slide.link} className="block w-full h-full relative group/slide">
-                    <picture className="w-full h-full block">
-                      {slide.mobileImg && (
-                        <source media="(max-width: 767px)" srcSet={slide.mobileImg} />
-                      )}
-                      <img
-                        src={slide.desktopImg}
-                        alt={slide.title}
-                        className="w-full h-full object-cover object-center transition-transform duration-700 group-hover/slide:scale-105"
-                      />
-                    </picture>
-
-
-                  </Link>
+                  {slide.action === 'subscribe' ? (
+                    <Link to="/subscribe" className="block w-full h-full relative group/slide">
+                      <picture className="w-full h-full block">
+                        {slide.mobileImg && (
+                          <source media="(max-width: 767px)" srcSet={slide.mobileImg} />
+                        )}
+                        <img
+                          src={slide.desktopImg}
+                          alt={slide.title}
+                          className="w-full h-full object-cover object-center transition-transform duration-700 group-hover/slide:scale-105"
+                        />
+                      </picture>
+                    </Link>
+                  ) : (
+                    <button
+                      type="button"
+                      className="block w-full h-full relative group/slide cursor-pointer p-0 border-0 bg-transparent"
+                      onClick={() => openLeadModal(slide.plan)}
+                    >
+                      <picture className="w-full h-full block pointer-events-none">
+                        {slide.mobileImg && (
+                          <source media="(max-width: 767px)" srcSet={slide.mobileImg} />
+                        )}
+                        <img
+                          src={slide.desktopImg}
+                          alt={slide.title}
+                          className="w-full h-full object-cover object-center transition-transform duration-700 group-hover/slide:scale-105"
+                        />
+                      </picture>
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -1400,7 +1430,7 @@ const Home = () => {
 };
 
 function LeadDetailModal({ selectedPlan, onClose }) {
-  const [form, setForm] = useState({ fullName: '', mobile: '', email: '' });
+  const [form, setForm] = useState({ fullName: '', mobile: '', email: '', selectedPlan: selectedPlan || '' });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -1417,6 +1447,7 @@ function LeadDetailModal({ selectedPlan, onClose }) {
     if (!form.fullName.trim()) nextErrors.fullName = 'Full name is required.';
     if (!/^[6-9]\d{9}$/.test(form.mobile.trim())) nextErrors.mobile = 'Enter a valid 10-digit mobile number.';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) nextErrors.email = 'Enter a valid email address.';
+    if (!form.selectedPlan) nextErrors.selectedPlan = 'Please select a loan plan.';
     return nextErrors;
   };
 
@@ -1431,22 +1462,30 @@ function LeadDetailModal({ selectedPlan, onClose }) {
     setSubmitting(true);
     setSubmitError('');
     try {
-      // Save lead to Google Sheet
-      await fetch('/api/submit-lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fullName:     form.fullName.trim(),
-          mobile:       form.mobile.trim(),
-          email:        form.email.trim(),
-          selectedPlan,
-          source:       'loan-card-modal',
-        }),
+      await postToSheet(import.meta.env.VITE_LEAD_SHEET_URL, {
+        timestamp:    new Date().toISOString(),
+        fullName:     form.fullName.trim(),
+        mobile:       form.mobile.trim(),
+        email:        form.email.trim(),
+        selectedPlan: form.selectedPlan,
+        source:       'loan-card-modal',
+        sendConfirmationEmail: true,
+        emailTo: form.email.trim(),
+        emailSubject: `Thank you for your interest in ${form.selectedPlan}`,
       });
-      // Sheet failure is non-blocking — always show success to user
+      notifyUser({
+        name: form.fullName.trim(),
+        email: form.email.trim(),
+        type: 'lead',
+        extra: {
+          plan: form.selectedPlan,
+          subject: `Thank you for your interest in ${form.selectedPlan}`,
+          summary: `Lead for ${form.selectedPlan}`,
+        },
+      });
       setSuccess(true);
     } catch (error) {
-      setSubmitError(error.message);
+      setSuccess(true);
     } finally {
       setSubmitting(false);
     }
@@ -1459,25 +1498,23 @@ function LeadDetailModal({ selectedPlan, onClose }) {
           <span className="material-symbols-outlined">close</span>
         </button>
 
-        {/* Left — callback image */}
         <div className="lead-modal-img">
           <img src={callbackImg} alt="Callback" />
         </div>
 
-        {/* Right — form */}
         <div className="lead-modal-body">
           {success ? (
             <div className="lead-success">
               <span className="material-symbols-outlined">check_circle</span>
               <h2 id="lead-modal-title">Thank you!</h2>
-              <p>Our team will call you back shortly regarding your <strong>{selectedPlan}</strong> enquiry.</p>
+              <p>Our team will call you back shortly regarding your <strong>{form.selectedPlan}</strong> enquiry.</p>
               <button type="button" className="lead-submit" onClick={onClose}>Done</button>
             </div>
           ) : (
             <>
               <span className="lead-kicker">Get Details</span>
               <h2 id="lead-modal-title">Request a Callback</h2>
-              <p className="lead-copy">Share your details and our advisor will call you back to help with your loan query.</p>
+              <p className="lead-copy">Share your details and pick a product. Our advisor will call you back to help with your loan query.</p>
               <form className="lead-form" onSubmit={submit}>
                 <label>
                   <span>Full Name *</span>
@@ -1495,8 +1532,14 @@ function LeadDetailModal({ selectedPlan, onClose }) {
                   {errors.email && <small>{errors.email}</small>}
                 </label>
                 <label>
-                  <span>Selected Plan</span>
-                  <input type="text" value={selectedPlan} readOnly />
+                  <span>Select Plan *</span>
+                  <select name="selectedPlan" value={form.selectedPlan} onChange={update}>
+                    <option value="">Choose a loan or assistance plan</option>
+                    {callbackPlans.map((plan) => (
+                      <option key={plan} value={plan}>{plan}</option>
+                    ))}
+                  </select>
+                  {errors.selectedPlan && <small>{errors.selectedPlan}</small>}
                 </label>
                 {submitError && <div className="lead-error">{submitError}</div>}
                 <button type="submit" className="lead-submit" disabled={submitting}>

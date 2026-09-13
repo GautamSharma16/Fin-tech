@@ -12,18 +12,20 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true, message: 'Lead sheet not configured, skipped.' });
   }
 
-  const { fullName, mobile, email, selectedPlan, source } = req.body || {};
+  const { fullName, mobile, email, selectedPlan, source, message } = req.body || {};
 
   try {
     const response = await fetch(sheetUrl, {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         timestamp:    new Date().toISOString(),
         fullName:     fullName     || '',
         mobile:       mobile       || '',
         email:        email        || '',
         selectedPlan: selectedPlan || '',
+        message:      message      || '',
         source:       source       || 'loan-card-modal',
       }),
     });

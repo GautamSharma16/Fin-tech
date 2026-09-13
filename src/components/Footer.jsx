@@ -66,10 +66,10 @@ const Footer = () => {
                 <Link to="/contact">Contact Us</Link>
               </li>
               <li className="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150">
-                <Link to="#">Grievance Redressal</Link>
+                <Link to="/privacy">Privacy Policy</Link>
               </li>
               <li className="font-body-md text-body-md text-on-tertiary-container hover:text-on-tertiary hover:translate-x-1 transition-all duration-150">
-                <Link to="#">Fair Practice Code</Link>
+                <Link to="/terms">Terms &amp; Conditions</Link>
               </li>
             </ul>
           </div>
@@ -127,16 +127,12 @@ const Footer = () => {
             </span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-space-md font-label-sm text-label-sm">
-            <Link to="#" className="hover:text-on-tertiary hover:underline transition-colors">
+            <Link to="/privacy" className="hover:text-on-tertiary hover:underline transition-colors">
               Privacy Policy
             </Link>
             <span className="text-tertiary-container">•</span>
-            <Link to="#" className="hover:text-on-tertiary hover:underline transition-colors">
+            <Link to="/terms" className="hover:text-on-tertiary hover:underline transition-colors">
               Terms & Conditions
-            </Link>
-            <span className="text-tertiary-container">•</span>
-            <Link to="#" className="hover:text-on-tertiary hover:underline transition-colors">
-              Statutory Disclaimer
             </Link>
           </div>
         </div>
