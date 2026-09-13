@@ -345,11 +345,11 @@ const Home = () => {
                   Quick &amp; Simple
                 </h3>
                 <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                  Seamless paperless digital onboarding with instant digital eligibility and 10-minute automated approval checks.
+                  Fill a simple form in minutes — no branch visits, no lengthy paperwork, no confusing jargon. Just share your details and we handle the rest.
                 </p>
               </div>
               <div className="mt-space-md pt-space-xs flex items-center gap-space-2xs text-primary font-label-sm text-label-sm font-bold">
-                <span>Instant Digital KYC</span>
+                <span>Simple Online Form</span>
                 <span className="material-symbols-outlined text-xs transition-transform duration-200 group-hover:translate-x-1.5">
                   arrow_forward
                 </span>
@@ -1114,10 +1114,10 @@ const Home = () => {
               Zero Complications
             </span>
             <h2 className="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
-              Simple 4-Step Path to Financial Freedom
+              How Credvia Care Works in 4 Simple Steps
             </h2>
             <p className="font-body-md text-body-md text-on-surface-variant max-w-xl mt-space-2xs">
-              Experience a structured, prompt loan lifecycle engineered to eliminate branch visits and physical paperwork.
+              From filling your profile to sitting with your personal advisor — here's how Credvia Care guides you from confusion to clarity.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-lg relative">
@@ -1129,15 +1129,15 @@ const Home = () => {
                 </span>
                 <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
                   <span className="material-symbols-outlined text-xl transition-transform duration-300 group-hover:scale-110">
-                    touch_app
+                    edit_note
                   </span>
                 </div>
               </div>
               <h3 className="font-title-md text-title-md font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
-                Apply Online
+                Fill Your Profile
               </h3>
               <p className="font-body-sm text-body-sm text-on-surface-variant">
-                Fill out a quick 2-minute digital profile questionnaire with your personal and financial requirements.
+                Share your personal, employment, and bank details through our simple 4-step form. Takes less than 10 minutes.
               </p>
             </div>
             {/* Step 2 */}
@@ -1148,15 +1148,15 @@ const Home = () => {
                 </span>
                 <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
                   <span className="material-symbols-outlined text-xl transition-transform duration-300 group-hover:scale-110">
-                    upload_file
+                    payments
                   </span>
                 </div>
               </div>
               <h3 className="font-title-md text-title-md font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
-                Share Details
+                Confirm &amp; Secure Your Slot
               </h3>
               <p className="font-body-sm text-body-sm text-on-surface-variant">
-                Upload basic KYC identity documents and bank statements securely via DigiLocker or net banking.
+                Review your details and confirm your Credvia Care consultation. A small one-time service fee is charged to assign you a dedicated advisor.
               </p>
             </div>
             {/* Step 3 */}
@@ -1172,10 +1172,10 @@ const Home = () => {
                 </div>
               </div>
               <h3 className="font-title-md text-title-md font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
-                Get Expert Assistance
+                1-on-1 Advisor Session
               </h3>
               <p className="font-body-sm text-body-sm text-on-surface-variant">
-                Instant evaluation by our algorithm and a quick confirmation call from your dedicated loan officer.
+                A dedicated Credvia advisor calls you, reviews your credit profile, and explains your exact loan eligibility and options.
               </p>
             </div>
             {/* Step 4 */}
@@ -1186,15 +1186,15 @@ const Home = () => {
                 </span>
                 <div className="w-10 h-10 rounded-xl bg-secondary-container flex items-center justify-center text-on-secondary-container group-hover:bg-secondary group-hover:text-white transition-all duration-300">
                   <span className="material-symbols-outlined text-xl transition-transform duration-300 group-hover:scale-110">
-                    account_balance
+                    verified
                   </span>
                 </div>
               </div>
               <h3 className="font-title-md text-title-md font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
-                Move Forward
+                Apply with Confidence
               </h3>
               <p className="font-body-sm text-body-sm text-on-surface-variant">
-                Accept clear digital loan terms and receive instant fund transfer directly into your registered bank account.
+                Get a curated lender shortlist, complete documentation support, and guided submission — so your application has the best chance of approval.
               </p>
             </div>
           </div>
@@ -1435,6 +1435,13 @@ function LeadDetailModal({ selectedPlan, onClose }) {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
+
+  // Lock body scroll while modal is open
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
 
   const update = (event) => {
     const { name, value } = event.target;

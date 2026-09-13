@@ -249,6 +249,8 @@
   padding: 1rem;
   background: rgba(9, 30, 66, .54);
   backdrop-filter: blur(8px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .lead-modal {
@@ -256,6 +258,7 @@
   width: min(100%, 460px);
   max-height: min(720px, calc(100vh - 2rem));
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 1.5rem;
   border: 1px solid #dbe7f4;
   border-radius: 1rem;
@@ -266,7 +269,7 @@
 /* Wide 2-panel layout matching contact section */
 .lead-modal-wide {
   width: min(100%, 860px);
-  max-height: min(600px, calc(100vh - 2rem));
+  max-height: min(560px, calc(100vh - 2rem));
   display: grid;
   grid-template-columns: 2fr 3fr;
   padding: 0;
@@ -298,6 +301,7 @@
 .lead-modal-body {
   padding: 2rem 1.75rem;
   overflow-y: auto;
+  overscroll-behavior: contain;
   background: linear-gradient(135deg, #f8fbff 0%, #f2faf0 100%);
 }
 
