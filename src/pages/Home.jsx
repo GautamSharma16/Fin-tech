@@ -2,11 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { notifyUser, postToSheet } from '../utils/formPipeline';
 
-import hero1 from '../assets/Hero1 (1).webp';
 import hero2 from '../assets/Hero1 (2).webp';
 import hero3 from '../assets/Hero1 (3).webp';
 import hero4 from '../assets/Hero1 (4).webp';
 import bannerDesktop from '../assets/banner_desktop.png';
+import bannerCredviaDesktop from '../assets/desktop_banner_credvia.webp';
+import bannerCredviaCareDesktop from '../assets/desktop_banner_credviacare.webp';
+import bannerCredviaMobile from '../assets/mobile banner credvia.webp';
+import bannerCredviaCareMobile from '../assets/mobile banner credviacare.webp';
 import callbackImg from '../assets/callback.webp';
 import imgRajesh  from '../assets/Rajesh Kumar.jpeg';
 import imgPooja   from '../assets/Pooja Sharma.jpeg';
@@ -83,15 +86,31 @@ const heroSlides = [
   },
   {
     id: 2,
+    title: 'Credvia',
+    subtitle: 'Loan and financial services from Credvia.',
+    desktopImg: bannerCredviaDesktop,
+    mobileImg: bannerCredviaMobile,
+    action: 'subscribe',
+  },
+  {
+    id: 3,
+    title: 'Credvia Care',
+    subtitle: 'Financial assistance and advisory from Credvia Care.',
+    desktopImg: bannerCredviaCareDesktop,
+    mobileImg: bannerCredviaCareMobile,
+    action: 'subscribe',
+  },
+  {
+    id: 4,
     title: 'Business & MSME Capital',
-    subtitle: 'Collateral-free working capital credit up to ₹50 Lakhs.',
+    subtitle: 'Collateral-free working capital credit up to Rs. 50 Lakhs.',
     desktopImg: hero2,
     mobileImg: mobileBanner5,
     action: 'callback',
     plan: 'Business Loan',
   },
   {
-    id: 3,
+    id: 5,
     title: 'Credvia Financial Advisory',
     subtitle: 'Professional credit assistance & 1-on-1 expert guidance.',
     desktopImg: hero3,
@@ -100,7 +119,7 @@ const heroSlides = [
     plan: 'Credvia Care (Financial Assistance)',
   },
   {
-    id: 4,
+    id: 6,
     title: 'Home & LAP Solutions',
     subtitle: 'Long-tenure, large-ticket financing at competitive interest rates.',
     desktopImg: hero4,
@@ -115,11 +134,25 @@ const Home = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [activeCard, setActiveCard] = useState(0);
   const [leadModalPlan, setLeadModalPlan] = useState('');
+  const [emiInputs, setEmiInputs] = useState({ amount: 100000, rate: 10.99, tenure: 24 });
   const carouselRef = React.useRef(null);
   const TOTAL_LOAN_CARDS = 9;
 
   const openLeadModal = (plan) => setLeadModalPlan(plan);
   const closeLeadModal = () => setLeadModalPlan('');
+  const principal = Number(emiInputs.amount) || 0;
+  const monthlyRate = (Number(emiInputs.rate) || 0) / 12 / 100;
+  const tenureMonths = Number(emiInputs.tenure) || 1;
+  const monthlyEmi = monthlyRate
+    ? Math.round((principal * monthlyRate * (1 + monthlyRate) ** tenureMonths) / (((1 + monthlyRate) ** tenureMonths) - 1))
+    : Math.round(principal / tenureMonths);
+  const totalPayable = monthlyEmi * tenureMonths;
+  const totalInterest = Math.max(totalPayable - principal, 0);
+  const interestAngle = totalPayable ? Math.max(8, Math.round((totalInterest / totalPayable) * 360)) : 0;
+  const formatCurrency = (value) => `₹${Number(value || 0).toLocaleString('en-IN')}`;
+  const updateEmi = (key, value) => {
+    setEmiInputs((current) => ({ ...current, [key]: Number(value) }));
+  };
 
   const renderPartnerLogo = (partner) => (
     <div
@@ -385,7 +418,7 @@ const Home = () => {
                   Flexible Solutions
                 </h3>
                 <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                  Tailored repayment tenures from 12 to 84 months with penalty-free part-prepayment opportunities.
+                  Tailored repayment tenures from 12 to 109 months with penalty-free part-prepayment opportunities.
                 </p>
               </div>
               <div className="mt-space-md pt-space-xs flex items-center gap-space-2xs text-primary font-label-sm text-label-sm font-bold">
@@ -504,7 +537,7 @@ const Home = () => {
                 All Products
               </Link>
               <a
-                href="#assistance-section"
+                href="#emi-calculator"
                 className="px-space-md py-space-xs rounded-full bg-surface text-on-surface-variant font-label-md text-label-md font-semibold hover:bg-surface-container active:scale-95 transition-all border border-surface-container/60"
               >
                 Calculate EMI
@@ -543,12 +576,12 @@ const Home = () => {
                     Personal Loan
                   </h3>
                   <p className="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
-                    Instant unsecured funds up to ₹25 Lakhs for weddings, emergency medical care, travel, or consolidation.
+                    Instant unsecured funds up to ₹10 Crores for weddings, emergency medical care, travel, or consolidation.
                   </p>
                   <div className="space-y-space-xs mb-space-xl">
                     <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200">
                       <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
-                      <span>Tenures up to 5 Years</span>
+                      <span>Tenures up to 108 months</span>
                     </div>
                     <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-75">
                       <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
@@ -668,7 +701,7 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Home & LAP Card */}
+              {/* Home Loan Card */}
               <div className="flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm hover:shadow-2xl hover:-translate-y-2 border border-transparent hover:border-primary/20 transition-all duration-300 relative overflow-hidden group shrink-0 w-72 snap-start">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-full -z-0 group-hover:scale-125 transition-transform duration-500 ease-out"></div>
                 <div className="relative z-10 flex flex-col">
@@ -681,7 +714,7 @@ const Home = () => {
                     </span>
                   </div>
                   <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface mb-space-2xs group-hover:text-primary transition-colors">
-                    Home
+                    Home Loan
                   </h3>
                   <p className="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
                     Long-tenure, large-ticket financing secured against residential or commercial properties for landmark projects.
@@ -740,7 +773,7 @@ const Home = () => {
                     </div>
                     <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-75">
                       <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
-                      <span>Residential &amp; commercial property</span>
+                      <span>Finance up to 80% of property value</span>
                     </div>
                     <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface group-hover:translate-x-1 transition-transform duration-200 delay-150">
                       <span className="material-symbols-outlined text-secondary text-base">check_circle</span>
@@ -976,6 +1009,119 @@ const Home = () => {
         </div>
       </section>
 
+      <section className="emi-calculator-section bg-surface" id="emi-calculator">
+        <div className="max-w-container-max mx-auto px-gutter-desktop">
+          <div className="emi-tools-head">
+            <h2>Tools to help<br /><strong>you decide</strong></h2>
+            <div className="emi-tool-tabs" aria-label="Calculator tools">
+              <button type="button" className="active">EMI Calculator</button>
+            </div>
+          </div>
+
+          <div className="emi-calculator">
+            <div className="emi-controls">
+              <label>
+                <span><b>Loan amount</b></span>
+                <div className="emi-value-field">
+                  <span>₹</span>
+                  <input
+                    type="number"
+                    min="40000"
+                    max="100000000"
+                    value={emiInputs.amount}
+                    onChange={(event) => updateEmi('amount', event.target.value)}
+                  />
+                </div>
+                <input
+                  type="range"
+                  min="40000"
+                  max="100000000"
+                  step="10000"
+                  value={emiInputs.amount}
+                  onChange={(event) => updateEmi('amount', event.target.value)}
+                />
+                <div className="emi-range-labels"><small>₹40,000</small><small>₹10,00,00,000</small></div>
+              </label>
+
+              <label>
+                <span><b>Loan duration</b></span>
+                <div className="emi-tenure-field">
+                  <input
+                    type="number"
+                    min="1"
+                    max="9"
+                    value={Math.round(emiInputs.tenure / 12)}
+                    onChange={(event) => updateEmi('tenure', Math.max(1, Number(event.target.value) || 1) * 12)}
+                  />
+                  <button type="button" className="active">Yr</button>
+                </div>
+                <input
+                  type="range"
+                  min="12"
+                  max="108"
+                  step="12"
+                  value={emiInputs.tenure}
+                  onChange={(event) => updateEmi('tenure', event.target.value)}
+                />
+                <div className="emi-range-labels"><small>1 Year</small><small>9 Years</small></div>
+              </label>
+
+              <label>
+                <span><b>Rate of interest</b></span>
+                <div className="emi-value-field">
+                  <input
+                    type="number"
+                    min="6"
+                    max="35"
+                    step="0.01"
+                    value={emiInputs.rate}
+                    onChange={(event) => updateEmi('rate', event.target.value)}
+                  />
+                  <span>%</span>
+                </div>
+                <input
+                  type="range"
+                  min="6"
+                  max="35"
+                  step="0.01"
+                  value={emiInputs.rate}
+                  onChange={(event) => updateEmi('rate', event.target.value)}
+                />
+                <div className="emi-range-labels"><small>6% p.a.</small><small>35% p.a.</small></div>
+              </label>
+            </div>
+
+            <div className="emi-result-panel">
+              <div className="emi-monthly">
+                <small>Monthly EMI</small>
+                <strong>{formatCurrency(monthlyEmi)}*</strong>
+              </div>
+
+              <div className="emi-breakup">
+                <div className="emi-pie" style={{ '--interest-angle': `${interestAngle}deg` }} aria-hidden="true"></div>
+                <div className="emi-legend">
+                  <div>
+                    <span className="emi-dot payable"></span>
+                    <small>Total Amount Payable</small>
+                    <strong>{formatCurrency(totalPayable)}*</strong>
+                  </div>
+                  <div>
+                    <span className="emi-dot interest"></span>
+                    <small>Total Interest Payable</small>
+                    <strong>{formatCurrency(totalInterest)}*</strong>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" onClick={() => openLeadModal('Personal Loan')} className="emi-action">Get Expert Advice</button>
+            </div>
+          </div>
+          <p className="emi-disclaimer">
+            Disclaimer: The aforementioned values, calculations and results are for illustrative and informational purposes only and may vary basis lender parameters.
+          </p>
+        </div>
+      </section>
+
       {/* SECTION 4: SIGNATURE PRODUCT — ₹699 FINANCIAL ASSISTANCE (CREDVIA CARE) */}
       <section className="py-space-3xl bg-surface-container-low relative" id="assistance-section">
         <div className="max-w-container-max mx-auto px-gutter-desktop">
@@ -1062,6 +1208,46 @@ const Home = () => {
                     </span>
                     <span className="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">
                       Curated recommendations for competitive interest rate options
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-space-xs p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+                    <span className="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">
+                      check_circle
+                    </span>
+                    <span className="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">
+                      Monthly Credit Monitoring
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-space-xs p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+                    <span className="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">
+                      check_circle
+                    </span>
+                    <span className="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">
+                      Loan Eligibility Certificate
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-space-xs p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+                    <span className="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">
+                      check_circle
+                    </span>
+                    <span className="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">
+                      Credit Improvement Program
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-space-xs p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+                    <span className="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">
+                      check_circle
+                    </span>
+                    <span className="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">
+                      Credvia Locker
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-space-xs sm:col-span-2 p-1.5 rounded-lg hover:bg-white/5 transition-all duration-200 group cursor-default">
+                    <span className="material-symbols-outlined text-secondary-fixed text-lg shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-200">
+                      check_circle
+                    </span>
+                    <span className="font-body-sm text-body-sm text-on-primary group-hover:text-secondary-fixed transition-colors">
+                      Financial Health Report
                     </span>
                   </div>
                 </div>
@@ -1549,11 +1735,11 @@ function LeadDetailModal({ selectedPlan, onClose }) {
                   {errors.selectedPlan && <small>{errors.selectedPlan}</small>}
                 </label>
                 {submitError && <div className="lead-error">{submitError}</div>}
-                <button type="submit" className="lead-submit" disabled={submitting}>
-                  {submitting ? 'Submitting...' : 'Request Callback'}
-                  <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>arrow_forward</span>
-                </button>
               </form>
+              <button type="button" className="lead-submit" disabled={submitting} onClick={submit}>
+                {submitting ? 'Submitting...' : 'Request Callback'}
+                <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>arrow_forward</span>
+              </button>
             </>
           )}
         </div>
@@ -1563,3 +1749,4 @@ function LeadDetailModal({ selectedPlan, onClose }) {
 }
 
 export default Home;
+

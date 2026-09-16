@@ -28,9 +28,12 @@ import './Subscribe.css';
 const serviceAmount = 699;
 const storageKey = 'credvia-care-application';
 const steps = ['Personal Details', 'Employment Details', 'Bank Details', 'Review & Submit'];
+const requiredFieldKeys = {
+  1: ['associateName', 'applicantName', 'email', 'mobile'],
+};
 
 const initialData = {
-  applicantName: '', dob: '', mobile: '', pan: '', aadhar: '', fatherName: '', motherName: '',
+  associateName: '', applicantName: '', dob: '', mobile: '', pan: '', aadhar: '', fatherName: '', motherName: '',
   spouseName: '', education: '', email: '', officeEmail: '', address: '', residenceLandline: '',
   residenceType: '', yearsAtResidence: '', permanentAddress: '', permanentMobile: '', companyName: '',
   officeAddress: '', officialLandline: '', officialEmail: '', occupationType: '', yearsAtJob: '',
@@ -76,11 +79,13 @@ const panelContent = [
 
 const fieldGroups = {
   1: [
-    ['Applicant Name', 'applicantName', 'text', UserRound], ['Applicant DOB', 'dob', 'date', UserRound],
-    ['Mobile No', 'mobile', 'tel', Phone], ['PAN Card No', 'pan', 'text', FileCheck2],
+    ['Applicant Name', 'applicantName', 'text', UserRound], ['Associate Name', 'associateName', 'text', UserRound],
+    ['Personal E-mail ID', 'email', 'email', Mail], ['Mobile No (WhatsApp No)', 'mobile', 'tel', Phone],
+    ['Applicant DOB', 'dob', 'date', UserRound],
+    ['PAN Card No', 'pan', 'text', FileCheck2],
     ['Aadhar Card No', 'aadhar', 'text', ShieldCheck], ["Father's Name", 'fatherName', 'text', UserRound],
     ["Mother's Name", 'motherName', 'text', UserRound], ['Spouse Name with DOB', 'spouseName', 'text', UserRound],
-    ['Education (Qualification)', 'education', 'select', FileCheck2], ['Personal E-mail ID', 'email', 'email', Mail],
+    ['Education (Qualification)', 'education', 'select', FileCheck2],
     ['Office Mail ID', 'officeEmail', 'email', Mail], ['Residence Address with Landmark', 'address', 'textarea', MapPin],
     ['Landline No. of Residence Address', 'residenceLandline', 'tel', Phone], ['Residence Type', 'residenceType', 'select', MapPin],
     ['No. of Years at Above Residence (Current Address)', 'yearsAtResidence', 'select', MapPin],
@@ -109,7 +114,8 @@ function readSavedData() {
 
 function validateStep(step, data) {
   const errors = {};
-  fieldGroups[step].forEach(([, key]) => {
+  const requiredKeys = requiredFieldKeys[step] || fieldGroups[step].map(([, key]) => key);
+  requiredKeys.forEach((key) => {
     if (!String(data[key] || '').trim()) errors[key] = 'This field is required.';
   });
   if (data.mobile && !/^\d{10}$/.test(data.mobile)) errors.mobile = 'Enter a valid 10-digit mobile number.';
@@ -374,6 +380,7 @@ function ApplicationPage() {
                         value={data[key]}
                         error={errors[key]}
                         options={options[key]}
+                        required={(requiredFieldKeys[step] || fieldGroups[step].map(([, fieldKey]) => fieldKey)).includes(key)}
                         hint={key === 'netMonthlyPay' ? 'Salary credited to your account after PF, tax and other deductions.' : ''}
                         onChange={update}
                         delay={index}
@@ -433,7 +440,7 @@ function formatInrDigits(value) {
   return Number(digits).toLocaleString('en-IN');
 }
 
-function FormField({ label, name, type, icon: Icon, value, error, options: fieldOptions = [], onChange, delay = 0, hint = '' }) {
+function FormField({ label, name, type, icon: Icon, value, error, options: fieldOptions = [], onChange, delay = 0, hint = '', required = true }) {
   const filled = Boolean(String(value || '').trim()) && !error;
   const control = type === 'select'
     ? <select value={value} onChange={(e) => onChange(name, e.target.value)}>
@@ -459,7 +466,7 @@ function FormField({ label, name, type, icon: Icon, value, error, options: field
 
   return (
     <label className={`form-field ${type === 'currency' ? 'form-field-currency' : ''} ${error ? 'has-error' : ''} ${filled ? 'is-filled' : ''}`} style={{ animationDelay: `${Math.min(delay, 12) * 40}ms` }}>
-      <span>{label} <b>*</b></span>
+      <span>{label} {required && <b>*</b>}</span>
       <div className="control"><Icon size={16} />{control}{filled && <CheckCircle2 size={16} className="field-ok" />}</div>
       {hint && !error && <small className="field-hint">{hint}</small>}
       {error && <small className="field-error">{error}</small>}
@@ -469,7 +476,7 @@ function FormField({ label, name, type, icon: Icon, value, error, options: field
 
 function Review({ data, errors, setStep, update, onSubmit, submitting, submitError, amount }) {
   const sections = [
-    ['Personal Details', UserRound, [['Applicant Name', data.applicantName], ['Mobile No', data.mobile], ['PAN', data.pan], ['Aadhaar', data.aadhar], ['Email', data.email], ['Residence Address', data.address]]],
+    ['Personal Details', UserRound, [['Associate Name', data.associateName], ['Applicant Name', data.applicantName], ['Mobile No (WhatsApp No)', data.mobile], ['Email', data.email], ['PAN', data.pan], ['Aadhaar', data.aadhar], ['Residence Address', data.address]]],
     ['Employment Details', BriefcaseBusiness, [['Company Name', data.companyName], ['Occupation Type', data.occupationType], ['Designation', data.designation], ['Department', data.department], ['Net Monthly Pay', data.netMonthlyPay ? `₹${Number(data.netMonthlyPay).toLocaleString('en-IN')}` : ''], ['Office Address', data.officeAddress]]],
     ['Bank Details', Landmark, [['Bank Name', data.bankName === 'Other' ? data.otherBankName : data.bankName], ['Account Number', `XXXX XXXX ${String(data.accountNo).slice(-4)}`], ['Branch Name', data.branchName]]],
   ];

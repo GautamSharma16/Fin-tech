@@ -243,11 +243,16 @@ const Contact = () => {
                     <option value="" disabled>
                       Choose a loan service or assistance category...
                     </option>
-                    <option value="personal">Personal Loan (Instant Pre-Approved)</option>
+                    <option value="personal">Personal Loan</option>
                     <option value="business">Business Loan / MSME Working Capital</option>
-                    <option value="credit-care">Credvia Care (Financial Assistance Audit)</option>
-                    <option value="consumer">Consumer Durable Loan</option>
+                    <option value="home-loan">Home Loan</option>
                     <option value="lap">Loan Against Property (LAP)</option>
+                    <option value="auto-loan">Auto Loan</option>
+                    <option value="used-car-loan">Used Car Loan</option>
+                    <option value="two-wheeler-loan">Two Wheeler Loan</option>
+                    <option value="flexi-loan">Flexi Loan</option>
+                    <option value="loan-against-security">Loan Against Security</option>
+                    <option value="credit-care">Credvia Care (Financial Assistance Audit)</option>
                     <option value="grievance">Grievance / Existing Loan Support</option>
                   </select>
                   <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline text-xl pointer-events-none">
